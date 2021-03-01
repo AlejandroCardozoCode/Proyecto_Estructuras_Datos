@@ -186,8 +186,6 @@ int main(int argc, char *argv[])
                 {
                     valor = valor + x;
                 }
-                
-                
             }
         }
 
