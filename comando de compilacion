@@ -1,1 +1,3 @@
 g++ -std=c++11 -g -o prueba main.cpp
+inicializar englishWords-0.txt
+puntaje aback

@@ -85,7 +85,6 @@ void comandoInicializar(std::string valor, std::deque<Diccionario> &listaDiccion
     return;
 }
 
-
 void comandoInicializarInverso(std::string valor, std::deque<Diccionario> &listaDiccionarios)
 {
     std::cout << "comando iniciar_inverso correcto" << std::endl;
@@ -94,7 +93,7 @@ void comandoInicializarInverso(std::string valor, std::deque<Diccionario> &lista
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente el arichivo de texto " << std::endl;
     }
-    
+
     std::string linea, nombreArchivo = valor;
     std::ifstream archivo;
     int lineasArchivo = 0;
@@ -122,9 +121,8 @@ void comandoInicializarInverso(std::string valor, std::deque<Diccionario> &lista
             verificacionPalabra = verificarPalabra(linea);
             if (verificacionPalabra)
             {
-                std::reverse(linea.begin(),linea.end());
+                std::reverse(linea.begin(), linea.end());
                 diccionarioAux.insertarPalabra(linea);
-
             }
         }
         std::cout << "El diccionario inverso se ha inicializado correctamente " << std::endl;
@@ -135,19 +133,74 @@ void comandoInicializarInverso(std::string valor, std::deque<Diccionario> &lista
         std::cout << "El archivo " << nombreArchivo << " no existe o no puede ser leído." << std::endl;
     }
     listaDiccionarios.push_back(diccionarioAux);
-    
+
     return;
 }
 
-
-void comandoPuntaje(std::string valor)
+int puntos(char letra)
 {
+    std::string pun1, pun2, pun3, pun4, pun8, pun10;
+    pun1 = "eaionrtlsu";
+    pun2 = "dg";
+    pun3 = "bcmp";
+    pun4 = "fhvwy";
+    pun8 = "jx";
+    pun10 = "qz";
+    if(letra == 'k')
+    return 5;
+    for (int i = 0; i < pun1.size(); i++)
+    {
+        if (pun1[i] == letra)
+        {
+            return 1;
+        }else if (pun2[i] == letra)
+        {
+            return 2;
+        }else if (pun3[i] == letra)
+        {
+            return 3;
+        }else if (pun4[i] == letra)
+        {
+            return 4;
+        }else if (pun8[i] == letra)
+        {
+            return 8;
+        }else if (pun10[i] == letra)
+        {
+            return 10;
+        }
+    }
+    return -1;
+}
+void comandoPuntaje(std::string valor, std::deque<Diccionario> &listaDiccionarios)
+{
+    int puntaje = 0;
+    std::deque<Diccionario>::iterator itDiccionario;
     std::cout << "comando puntaje correcto" << std::endl;
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente una palabra " << std::endl;
     }
-    return;
+    if (!verificarPalabra(valor))
+    {
+        std::cout << "La palabra contiene símbolos inválidos";
+        return;
+    }
+    for (itDiccionario = listaDiccionarios.begin(); itDiccionario != listaDiccionarios.end(); itDiccionario++)
+    {
+        if (itDiccionario->existePalabraInv(valor) || itDiccionario->existePalabra(valor))
+        {
+            for (int i = 0; i < valor.size(); i++)
+            {
+                puntaje += puntos(valor[i]);
+            }
+        }else
+        {
+            std::cout<<"La palabra no existe en el diccionario"<< std::endl;
+            return;
+        }
+    }
+    std::cout<<"La palabra tiene un puntaje de puntaje:"<< puntaje << std::endl;
 }
 void comandoIniciarArbol(std::string valor)
 {
@@ -247,11 +300,10 @@ int main(int argc, char *argv[])
         else if (funcion.compare("iniciar_inverso") == 0)
         {
             comandoInicializarInverso(valor, listaDiccionarios);
-
         }
         else if (funcion.compare("puntaje") == 0)
         {
-            comandoPuntaje(valor);
+            comandoPuntaje(valor, listaDiccionarios);
         }
         else if (funcion.compare("salir") == 0)
         {

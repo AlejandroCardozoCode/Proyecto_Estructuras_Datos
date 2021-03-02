@@ -36,6 +36,30 @@ void Diccionario::insertarPalabra(std::string palabraP)
     }
 
 }
+bool Diccionario::existePalabraInv(std::string palabra)
+{
+    std::reverse(palabra.begin(),palabra.end());
+    std::deque<std::string>::iterator itPalabra;
+    for (itPalabra = listaPalabras.begin(); itPalabra != listaPalabras.end(); itPalabra++){
+        if(*itPalabra == palabra)
+        {
+            return true;
+        }
+    }
+    return false;
+
+}
+bool Diccionario::existePalabra(std::string palabra)
+{
+    std::deque<std::string>::iterator itPalabra;
+    for (itPalabra = listaPalabras.begin(); itPalabra != listaPalabras.end(); itPalabra++){
+        if(*itPalabra == palabra)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
 void Diccionario::imprimirDiccionario()
 {
