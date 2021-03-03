@@ -19,7 +19,53 @@ bool verificarPalabra(std::string linea)
     }
     return verificacionPalabra;
 }
-
+void comandoAyudaEspecifico(std::string valor)
+{
+    if (valor.compare("inicializar") == 0)
+    {
+        std::cout << "- inicializar: llame la funcion y seguidamente el arichivo de texto" << std::endl;
+    }
+    else if (valor.compare("iniciar_inverso") == 0)
+    {
+        std::cout <<"- iniciar_inverso: llame la funcion y seguidamente el arichivo de texto" << std::endl;
+    }
+    else if (valor.compare("puntaje") == 0)
+    {
+        std::cout <<"- puntaje: llame la funcion y seguidamente una palabra" << std::endl;
+    }
+    else if (valor.compare("salir") == 0)
+    {
+        std::cout << "- salir" << std::endl;
+    }
+    else if (valor.compare("iniciar_arbol") == 0)
+    {
+        std::cout << "- iniciar_arbol: llame la funcion y seguidamente un archivo de texto" << std::endl;
+    }
+    else if (valor.compare("iniciar_arbol_inverso") == 0)
+    {
+        std::cout << "- iniciar_arbol_inverso: llame la funcion y seguidamente un archivo de texto" << std::endl;
+    }
+    else if (valor.compare("palabras_por_prefijo") == 0)
+    {
+        std::cout << "- palabras_por_prefijo: llame la funcion y seguidamente prefijo" << std::endl;
+    }
+    else if (valor.compare("palabras_por_sufijo") == 0)
+    {
+        std::cout << "- palabras_por_sufijo: llame la funcion y seguidamente sufijo" << std::endl;
+    }
+    else if (valor.compare("grafo_de_palabras") == 0)
+    {
+        std::cout << "- grafo_de_palabras: llame la funcion" << std::endl;
+    }
+    else if (valor.compare("posibles_palabras") == 0)
+    {
+        std::cout << "- posibles_palabras: llame la funcion y seguidamente una cadena de letras" << std::endl;
+    }
+    else
+    {
+        std::cout << "El comando ingresado no existe" << std::endl;
+    }
+}
 void comandoAyuda()
 {
     std::cout << "comandos validos:" << std::endl
@@ -146,26 +192,31 @@ int puntos(char letra)
     pun4 = "fhvwy";
     pun8 = "jx";
     pun10 = "qz";
-    if(letra == 'k')
-    return 5;
+    if (letra == 'k')
+        return 5;
     for (int i = 0; i < pun1.size(); i++)
     {
         if (pun1[i] == letra)
         {
             return 1;
-        }else if (pun2[i] == letra)
+        }
+        else if (pun2[i] == letra)
         {
             return 2;
-        }else if (pun3[i] == letra)
+        }
+        else if (pun3[i] == letra)
         {
             return 3;
-        }else if (pun4[i] == letra)
+        }
+        else if (pun4[i] == letra)
         {
             return 4;
-        }else if (pun8[i] == letra)
+        }
+        else if (pun8[i] == letra)
         {
             return 8;
-        }else if (pun10[i] == letra)
+        }
+        else if (pun10[i] == letra)
         {
             return 10;
         }
@@ -194,13 +245,14 @@ void comandoPuntaje(std::string valor, std::deque<Diccionario> &listaDiccionario
             {
                 puntaje += puntos(valor[i]);
             }
-        }else
+        }
+        else
         {
-            std::cout<<"La palabra no existe en el diccionario"<< std::endl;
+            std::cout << "La palabra no existe en el diccionario" << std::endl;
             return;
         }
     }
-    std::cout<<"La palabra tiene un puntaje de puntaje:"<< puntaje << std::endl;
+    std::cout << "La palabra tiene un puntaje de puntaje:" << puntaje << std::endl;
 }
 void comandoIniciarArbol(std::string valor)
 {
@@ -291,7 +343,14 @@ int main(int argc, char *argv[])
 
         if (funcion.compare("ayuda") == 0)
         {
-            comandoAyuda();
+            if (valor.empty())
+            {
+                comandoAyuda();
+            }
+            else
+            {
+                comandoAyudaEspecifico(valor);
+            }
         }
         else if (funcion.compare("inicializar") == 0)
         {
