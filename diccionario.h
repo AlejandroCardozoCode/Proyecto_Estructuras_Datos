@@ -16,9 +16,9 @@ class Diccionario
     std::string obtenerNombre();
     std::deque <std::string> obtenerPalabras();
     void fiajarNombre(std::string nombreP);
-    bool existePalabraInv(std::string palabra);
     bool existePalabra(std::string palabra);
     void insertarPalabra(std::string palabraP);
+    bool existePalabraInv(std::string palabra);
     void imprimirDiccionario();
 
 };

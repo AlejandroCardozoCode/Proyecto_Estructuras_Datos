@@ -6,6 +6,7 @@
 #include <deque>
 #include "diccionario.h"
 #include <algorithm>
+#include "utilidades.h"
 
 bool verificarPalabra(std::string linea)
 {
@@ -15,76 +16,14 @@ bool verificarPalabra(std::string linea)
         if (!isalpha(linea[i]))
         {
             verificacionPalabra = false;
+            //std::cout << "La palabra " << linea << " contiene caracteres invalidos, no se agregara a el diccionario " << std::endl;
         }
     }
     return verificacionPalabra;
 }
-void comandoAyudaEspecifico(std::string valor)
-{
-    if (valor.compare("inicializar") == 0)
-    {
-        std::cout << "- inicializar: llame la funcion y seguidamente el arichivo de texto" << std::endl;
-    }
-    else if (valor.compare("iniciar_inverso") == 0)
-    {
-        std::cout <<"- iniciar_inverso: llame la funcion y seguidamente el arichivo de texto" << std::endl;
-    }
-    else if (valor.compare("puntaje") == 0)
-    {
-        std::cout <<"- puntaje: llame la funcion y seguidamente una palabra" << std::endl;
-    }
-    else if (valor.compare("salir") == 0)
-    {
-        std::cout << "- salir" << std::endl;
-    }
-    else if (valor.compare("iniciar_arbol") == 0)
-    {
-        std::cout << "- iniciar_arbol: llame la funcion y seguidamente un archivo de texto" << std::endl;
-    }
-    else if (valor.compare("iniciar_arbol_inverso") == 0)
-    {
-        std::cout << "- iniciar_arbol_inverso: llame la funcion y seguidamente un archivo de texto" << std::endl;
-    }
-    else if (valor.compare("palabras_por_prefijo") == 0)
-    {
-        std::cout << "- palabras_por_prefijo: llame la funcion y seguidamente prefijo" << std::endl;
-    }
-    else if (valor.compare("palabras_por_sufijo") == 0)
-    {
-        std::cout << "- palabras_por_sufijo: llame la funcion y seguidamente sufijo" << std::endl;
-    }
-    else if (valor.compare("grafo_de_palabras") == 0)
-    {
-        std::cout << "- grafo_de_palabras: llame la funcion" << std::endl;
-    }
-    else if (valor.compare("posibles_palabras") == 0)
-    {
-        std::cout << "- posibles_palabras: llame la funcion y seguidamente una cadena de letras" << std::endl;
-    }
-    else
-    {
-        std::cout << "El comando ingresado no existe" << std::endl;
-    }
-}
-void comandoAyuda()
-{
-    std::cout << "comandos validos:" << std::endl
-              << "- inicializar: llame la funcion y seguidamente el arichivo de texto" << std::endl
-              << "- iniciar_inverso: llame la funcion y seguidamente el arichivo de texto" << std::endl
-              << "- puntaje: llame la funcion y seguidamente una palabra" << std::endl
-              << "- salir" << std::endl
-              << "- iniciar_arbol: llame la funcion y seguidamente un archivo de texto" << std::endl
-              << "- iniciar_arbol_inverso: llame la funcion y seguidamente un archivo de texto" << std::endl
-              << "- palabras_por_prefijo: llame la funcion y seguidamente prefijo" << std::endl
-              << "- palabras_por_sufijo: llame la funcion y seguidamente sufijo" << std::endl
-              << "- grafo_de_palabras: llame la funcion" << std::endl
-              << "- posibles_palabras: llame la funcion y seguidamente una cadena de letras" << std::endl;
-    return;
-}
 
 void comandoInicializar(std::string valor, std::deque<Diccionario> &listaDiccionarios)
 {
-    std::cout << "comando inicializar correcto" << std::endl;
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente el arichivo de texto " << std::endl;
@@ -92,7 +31,7 @@ void comandoInicializar(std::string valor, std::deque<Diccionario> &listaDiccion
 
     std::string linea, nombreArchivo = valor;
     std::ifstream archivo;
-    int lineasArchivo = 0;
+    int lineasArchivo = 0, contadorPalabrasNoValidas = 0;
     bool verificacionPalabra = true;
     Diccionario diccionarioAux;
     std::deque<std::string> palabrasAux;
@@ -108,7 +47,7 @@ void comandoInicializar(std::string valor, std::deque<Diccionario> &listaDiccion
         }
     }
 
-    diccionarioAux.fiajarNombre(nombreArchivo);
+    diccionarioAux.fiajarNombre(nombreArchivo );
     archivo.open(nombreArchivo);
     if (archivo.is_open())
     {
@@ -119,7 +58,16 @@ void comandoInicializar(std::string valor, std::deque<Diccionario> &listaDiccion
             {
                 diccionarioAux.insertarPalabra(linea);
             }
+            else
+            {
+                contadorPalabrasNoValidas ++;
+            }
         }
+        if (contadorPalabrasNoValidas != 0)
+        {
+        std::cout << "El archivo de texto tenia: " << contadorPalabrasNoValidas << " palabras no validas, estas no se agregaron al diccionario" << std::endl;
+        }
+        
         std::cout << "El diccionario se ha inicializado correctamente " << std::endl;
         archivo.close();
     }
@@ -133,7 +81,6 @@ void comandoInicializar(std::string valor, std::deque<Diccionario> &listaDiccion
 
 void comandoInicializarInverso(std::string valor, std::deque<Diccionario> &listaDiccionarios)
 {
-    std::cout << "comando iniciar_inverso correcto" << std::endl;
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
 
     {
@@ -142,7 +89,7 @@ void comandoInicializarInverso(std::string valor, std::deque<Diccionario> &lista
 
     std::string linea, nombreArchivo = valor;
     std::ifstream archivo;
-    int lineasArchivo = 0;
+    int lineasArchivo = 0, contadorPalabrasNoValidas = 0;
     bool verificacionPalabra = true;
     Diccionario diccionarioAux;
     std::deque<std::string> palabrasAux;
@@ -151,14 +98,14 @@ void comandoInicializarInverso(std::string valor, std::deque<Diccionario> &lista
 
     for (itDiccionario = listaDiccionarios.begin(); itDiccionario != listaDiccionarios.end(); itDiccionario++)
     {
-        if (itDiccionario->obtenerNombre() == nombreArchivo)
+        if (itDiccionario->obtenerNombre() == nombreArchivo + "inv")
         {
             std::cout << "El diccionario inverso ya ha sido inicializado." << std::endl;
             return;
         }
     }
 
-    diccionarioAux.fiajarNombre(nombreArchivo);
+    diccionarioAux.fiajarNombre(nombreArchivo + "inv");
     archivo.open(nombreArchivo);
     if (archivo.is_open())
     {
@@ -170,7 +117,16 @@ void comandoInicializarInverso(std::string valor, std::deque<Diccionario> &lista
                 std::reverse(linea.begin(), linea.end());
                 diccionarioAux.insertarPalabra(linea);
             }
+            else
+            {
+                contadorPalabrasNoValidas ++;
+            }
         }
+        if (contadorPalabrasNoValidas != 0)
+        {
+        std::cout << "El archivo de texto tenia: " << contadorPalabrasNoValidas << " palabras no validas, estas no se agregaron al diccionario" << std::endl;
+        }
+        
         std::cout << "El diccionario inverso se ha inicializado correctamente " << std::endl;
         archivo.close();
     }
@@ -227,36 +183,43 @@ void comandoPuntaje(std::string valor, std::deque<Diccionario> &listaDiccionario
 {
     int puntaje = 0;
     std::deque<Diccionario>::iterator itDiccionario;
-    std::cout << "comando puntaje correcto" << std::endl;
+    bool palabraNormal = false, palabraInversa = false;
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente una palabra " << std::endl;
     }
     if (!verificarPalabra(valor))
     {
-        std::cout << "La palabra contiene símbolos inválidos";
+        std::cout << "La palabra contiene símbolos inválidos" << std::endl;
         return;
     }
     for (itDiccionario = listaDiccionarios.begin(); itDiccionario != listaDiccionarios.end(); itDiccionario++)
     {
-        if (itDiccionario->existePalabraInv(valor) || itDiccionario->existePalabra(valor))
+        if (itDiccionario->existePalabraInv(valor))
         {
-            for (int i = 0; i < valor.size(); i++)
-            {
-                puntaje += puntos(valor[i]);
-            }
+            palabraInversa = true;
         }
-        else
+        if (itDiccionario->existePalabra(valor))
         {
-            std::cout << "La palabra no existe en el diccionario" << std::endl;
-            return;
+            palabraNormal = true;
         }
+    }
+    if (palabraInversa && palabraNormal)
+    {
+        for (int i = 0; i < valor.size(); i++)
+        {
+            puntaje += puntos(valor[i]);
+        }
+    }
+    else if (!palabraNormal || !palabraInversa)
+    {
+        std::cout << "La palabra no existe en el diccionario normal o el inverso" << std::endl;
+        return;
     }
     std::cout << "La palabra tiene un puntaje de puntaje:" << puntaje << std::endl;
 }
 void comandoIniciarArbol(std::string valor)
 {
-    std::cout << "comando iniciar_arbol correcto" << std::endl;
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente un archivo de texto " << std::endl;
@@ -265,7 +228,6 @@ void comandoIniciarArbol(std::string valor)
 }
 void comandoIniciarArbolInverso(std::string valor)
 {
-    std::cout << "comando iniciar_arbol_inverso correcto" << std::endl;
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente un archivo de texto " << std::endl;
@@ -274,7 +236,6 @@ void comandoIniciarArbolInverso(std::string valor)
 }
 void comandoPalabrasPorPrefijo(std::string valor)
 {
-    std::cout << "comando palabras_por_prefijo correcto" << std::endl;
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente prefijo " << std::endl;
@@ -283,7 +244,6 @@ void comandoPalabrasPorPrefijo(std::string valor)
 }
 void comandoPalabrasPorSufijo(std::string valor)
 {
-    std::cout << "comando palabras_por_sufijo correcto" << std::endl;
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente sufijo " << std::endl;
@@ -292,7 +252,6 @@ void comandoPalabrasPorSufijo(std::string valor)
 }
 void comandoPosiblesPalabras(std::string valor)
 {
-    std::cout << "comando palabras_por_sufijo correcto" << std::endl;
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente sufijo " << std::endl;
@@ -301,7 +260,6 @@ void comandoPosiblesPalabras(std::string valor)
 }
 void comandoGrafoDePalabras(std::string valor)
 {
-    std::cout << "comando posibles_palabras correcto" << std::endl;
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente una cadena de letras " << std::endl;
@@ -313,12 +271,12 @@ int main(int argc, char *argv[])
 {
     int loop = 0;
     std::deque<Diccionario> listaDiccionarios;
-
+    std::system("clear");
     while (loop == 0)
     {
 
         std::string funcion_valor, funcion = "", valor = "";
-        std::cout << "$ ";
+        std::cout << "$: ";
         std::getline(std::cin, funcion_valor);
         int contador = 0;
         for (auto x : funcion_valor)
@@ -343,59 +301,71 @@ int main(int argc, char *argv[])
 
         if (funcion.compare("ayuda") == 0)
         {
+            std::system("clear");
             if (valor.empty())
             {
-                comandoAyuda();
+                impresionAyuda();
             }
             else
             {
-                comandoAyudaEspecifico(valor);
+                impresionAyudaEspecifico(valor);
             }
         }
         else if (funcion.compare("inicializar") == 0)
         {
+            std::system("clear");
             comandoInicializar(valor, listaDiccionarios);
         }
         else if (funcion.compare("iniciar_inverso") == 0)
         {
+            std::system("clear");
             comandoInicializarInverso(valor, listaDiccionarios);
         }
         else if (funcion.compare("puntaje") == 0)
         {
+            std::system("clear");
             comandoPuntaje(valor, listaDiccionarios);
         }
         else if (funcion.compare("salir") == 0)
         {
-            std::cout << "comando salir correcto" << std::endl;
+            std::system("clear");
+            std::cout << "Saliendo del sistema..." << std::endl;
             loop = 1;
         }
         else if (funcion.compare("iniciar_arbol") == 0)
         {
+            std::system("clear");
             comandoIniciarArbol(valor);
         }
         else if (funcion.compare("iniciar_arbol_inverso") == 0)
         {
+            std::system("clear");
             comandoIniciarArbolInverso(valor);
         }
         else if (funcion.compare("palabras_por_prefijo") == 0)
         {
+            std::system("clear");
             comandoPalabrasPorPrefijo(valor);
         }
         else if (funcion.compare("palabras_por_sufijo") == 0)
         {
+            std::system("clear");
             comandoPalabrasPorSufijo(valor);
         }
         else if (funcion.compare("grafo_de_palabras") == 0)
         {
+            std::system("clear");
             comandoGrafoDePalabras(valor);
         }
         else if (funcion.compare("posibles_palabras") == 0)
         {
+            std::system("clear");
             comandoPosiblesPalabras(valor);
         }
         else
         {
-            std::cout << "comando invalido, use el comando ayuda para ver los comandos" << std::endl;
+            std::system("clear");
+            std::cout << "comando invalido, use el comando <ayuda> para ver los comandos" << std::endl;
         }
     }
 }
