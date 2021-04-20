@@ -6,4 +6,6 @@
 void impresionAyuda();
 void impresionAyudaEspecifico(std::string);
 
+#include "utilidades.hxx"
+
 #endif // __UTILIDADES_H__

@@ -1,5 +1,6 @@
-g++ -std=c++11 -g -o prueba *.cpp *.cxx
+g++ -std=c++11 -g -o main *.cpp *.cxx
 inicializar englishWords-0.txt
+inicializar englishWords-1.txt
 inicializar englishWords-2.txt
 inicializar prueba.txt
 iniciar_inverso englishWords-0.txt
