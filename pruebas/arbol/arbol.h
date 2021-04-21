@@ -13,8 +13,8 @@ class Tree {
     Tree();
     ~Tree();
     bool esVacio();
-    bool insertar1(std::string &linesInsertar);
-    bool insertar2(std::string &linesInsertar, Nodo<T>* nodo);
+    bool insertar1(char &linesInsertar);
+    bool insertar2(char &linesInsertar, Nodo<T>* nodo);
     Nodo<T>* nodoRaiz();
     
 };

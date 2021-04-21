@@ -7,6 +7,7 @@
 #include "diccionario.h"
 #include <algorithm>
 #include "utilidades.h"
+#include "arbol.h"
 
 bool verificarPalabra(std::string linea)
 {
@@ -48,7 +49,7 @@ void comandoInicializar(std::string valor, std::deque<Diccionario> &listaDiccion
         }
     }
 
-    diccionarioAux.fiajarNombre(nombreArchivo );
+    diccionarioAux.fiajarNombre(nombreArchivo);
     archivo.open(nombreArchivo);
     if (archivo.is_open())
     {
@@ -62,13 +63,13 @@ void comandoInicializar(std::string valor, std::deque<Diccionario> &listaDiccion
             }
             else
             {
-                contadorPalabrasNoValidas ++;
+                contadorPalabrasNoValidas++;
             }
         }
         diccionarioAux.verificarRepetidas();
         if (contadorPalabrasNoValidas != 0)
         {
-        std::cout << "El archivo de texto tenia: " << contadorPalabrasNoValidas << " palabras no validas, estas no se agregaron al diccionario" << std::endl;
+            std::cout << "El archivo de texto tenia: " << contadorPalabrasNoValidas << " palabras no validas, estas no se agregaron al diccionario" << std::endl;
         }
         std::cout << "El diccionario se ha inicializado correctamente " << std::endl;
         archivo.close();
@@ -121,15 +122,15 @@ void comandoInicializarInverso(std::string valor, std::deque<Diccionario> &lista
             }
             else
             {
-                contadorPalabrasNoValidas ++;
+                contadorPalabrasNoValidas++;
             }
         }
         diccionarioAux.verificarRepetidas();
         if (contadorPalabrasNoValidas != 0)
         {
-        std::cout << "El archivo de texto tenia: " << contadorPalabrasNoValidas << " palabras no validas, estas no se agregaron al diccionario" << std::endl;
+            std::cout << "El archivo de texto tenia: " << contadorPalabrasNoValidas << " palabras no validas, estas no se agregaron al diccionario" << std::endl;
         }
-        
+
         std::cout << "El diccionario inverso se ha inicializado correctamente " << std::endl;
         archivo.close();
     }
@@ -227,13 +228,47 @@ void comandoIniciarArbol(std::string valor)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente un archivo de texto " << std::endl;
     }
-    return;
+    std::ifstream archivo;
+    std::string linea, nombreArchivo = valor;
+    Tree<char> arbol;
+    archivo.open(nombreArchivo);
+    if (archivo.is_open())
+    {
+        while (std::getline(archivo, linea))
+        {
+            std::cout << "nueva iteracion" << std::endl;
+            for (int i = 0; i < linea.length(); i++)
+            {
+                linea[i] = tolower(linea[i]);
+            }
+            arbol.insertar1(linea);
+        }
+        archivo.close();
+    }
 }
 void comandoIniciarArbolInverso(std::string valor)
 {
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente un archivo de texto " << std::endl;
+    }
+    std::ifstream archivo;
+    std::string linea, nombreArchivo = valor;
+    Tree<char> arbol;
+    archivo.open(nombreArchivo);
+    if (archivo.is_open())
+    {
+        while (std::getline(archivo, linea))
+        {
+            std::cout << "nueva iteracion" << std::endl;
+            for (int i = 0; i < linea.length(); i++)
+            {
+                linea[i] = tolower(linea[i]);
+            }
+            std::reverse(linea.begin(), linea.end());
+            arbol.insertar1(linea);
+        }
+        archivo.close();
     }
     return;
 }
@@ -274,6 +309,7 @@ int main(int argc, char *argv[])
 {
     int loop = 0;
     std::deque<Diccionario> listaDiccionarios;
+
     std::system("clear");
     while (loop == 0)
     {

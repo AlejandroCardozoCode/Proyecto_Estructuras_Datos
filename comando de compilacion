@@ -7,3 +7,5 @@ iniciar_inverso englishWords-0.txt
 iniciar_inverso prueba.txt
 puntaje aback
 puntaje kcaba
+iniciar_arbol englishWords-3.txt
+iniciar_arbol_inverso englishWords-3.txt
