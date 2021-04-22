@@ -30,7 +30,7 @@ template <class T>
 bool Tree<T>::insertar1(std::string &lineaInsertar)
 {
   char raizS = ' ';
-  if(this->raiz == NULL)
+  if (this->raiz == NULL)
   {
     this->raiz = new Nodo<char>(raizS);
     insertar2(lineaInsertar, raiz);
@@ -44,56 +44,51 @@ bool Tree<T>::insertar1(std::string &lineaInsertar)
 template <class T>
 bool Tree<T>::insertar2(std::string &lineaInsertar, Nodo<T> *nodo)
 {
-  if(!lineaInsertar.empty())
+  if (!lineaInsertar.empty())
   {
-  std::vector<Nodo<T>> *hijosActual = nodo->obtenerHijos();
-  std::vector<Nodo<T>> hijosActualValor = *hijosActual;
-  int posicion = 0;
-  Nodo<char> * nodoPosicion;
-  bool encontrado = false;
+    std::vector<Nodo<T>> *hijosActual = nodo->obtenerHijos();
+    std::vector<Nodo<T>> hijosActualValor = *hijosActual;
+    int posicion = 0;
+    Nodo<char> *nodoPosicion;
+    bool encontrado = false;
 
-  for (int i = 0; i < hijosActualValor.size(); i++)
-  {
-    if(hijosActualValor[i].obtenerDato() == lineaInsertar[0])
-    {
-      posicion = i;
-      encontrado = true;
-    }
-  }
-
-  if(encontrado)
-  {
-    nodoPosicion = &hijosActualValor[posicion];
-    lineaInsertar.erase(0,1);
-    insertar2(lineaInsertar, nodoPosicion);
-  }
-  
-  else
-  {
-    Nodo<T> * nodoHijo = new Nodo<T>(lineaInsertar[0]);
-    hijosActual->push_back(*nodoHijo);
-    hijosActualValor = *hijosActual;
-    nodo->fijarHijos(hijosActual);
     for (int i = 0; i < hijosActualValor.size(); i++)
     {
-      if(hijosActualValor[i].obtenerDato() == lineaInsertar[0])
+      if (hijosActualValor[i].obtenerDato() == lineaInsertar[0])
       {
         posicion = i;
         encontrado = true;
       }
     }
-    std::cout << "se guardo el valor " << lineaInsertar[0] << std::endl;
-    nodoPosicion = &hijosActualValor[posicion];
-    lineaInsertar.erase(0,1);
-    insertar2(lineaInsertar, nodoPosicion);
-  }
+
+    if (encontrado)
+    {
+      nodoPosicion = &hijosActualValor[posicion];
+      lineaInsertar.erase(0, 1);
+      insertar2(lineaInsertar, nodoPosicion);
+    }
+
+    else
+    {
+      Nodo<T> *nodoHijo = new Nodo<T>(lineaInsertar[0]);
+      hijosActual->push_back(*nodoHijo);
+      hijosActualValor = *hijosActual;
+      nodo->fijarHijos(hijosActual);
+      for (int i = 0; i < hijosActualValor.size(); i++)
+      {
+        if (hijosActualValor[i].obtenerDato() == lineaInsertar[0])
+        {
+          posicion = i;
+          encontrado = true;
+        }
+      }
+      nodoPosicion = &hijosActualValor[posicion];
+      lineaInsertar.erase(0, 1);
+      insertar2(lineaInsertar, nodoPosicion);
+    }
   }
   return true;
 }
-
-
-
-
 
 template <class T>
 Nodo<T> *Tree<T>::nodoRaiz()
