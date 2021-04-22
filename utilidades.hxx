@@ -3,14 +3,14 @@
 void impresionAyuda()
 {
     std::cout << "comandos validos:" << std::endl
-              << "- inicializar" << std::endl
-              << "- iniciar_inverso" << std::endl
-              << "- puntaje" << std::endl
-              << "- salir" << std::endl
-              << "- iniciar_arbol" << std::endl
-              << "- iniciar_arbol_inverso" << std::endl
-              << "- palabras_por_prefijo" << std::endl
-              << "- palabras_por_sufijo" << std::endl
+              << "- inicializar            / inicializa un diccionario " << std::endl
+              << "- iniciar_inverso        / inicializa un diccionario de manera inversa" << std::endl
+              << "- puntaje                / calcula el puntaje de una palbra" << std::endl
+              << "- salir                  / salir del programa" << std::endl
+              << "- iniciar_arbol          / inicia un arbol a partir de un archivo" << std::endl
+              << "- iniciar_arbol_inverso  / inicia un arbol de manera inversa a partir de un archivo" << std::endl
+              << "- palabras_por_prefijo   / busca una palabra por un prefijo en el arbol normal" << std::endl
+              << "- palabras_por_sufijo    / busca una palabra por un sufijo en el arbol inverso" << std::endl
               << "- grafo_de_palabras" << std::endl
               << "- posibles_palabras" << std::endl
               << "-------------------------------------------------------------------" << std::endl

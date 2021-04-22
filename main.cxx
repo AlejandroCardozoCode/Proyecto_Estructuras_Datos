@@ -9,6 +9,9 @@
 #include "utilidades.h"
 #include "arbol.h"
 
+std::string archivoArbol = "";
+std::string archivoArbolInv = "";
+
 bool verificarPalabra(std::string linea)
 {
     bool verificacionPalabra = true;
@@ -17,7 +20,6 @@ bool verificarPalabra(std::string linea)
         if (!isalpha(linea[i]))
         {
             return false;
-            //std::cout << "La palabra " << linea << " contiene caracteres invalidos, no se agregara a el diccionario " << std::endl;
         }
     }
     return verificacionPalabra;
@@ -238,6 +240,7 @@ void comandoIniciarArbol(std::string valor, Tree<char> &arbol, std::vector<std::
     }
     std::ifstream archivo;
     std::string linea, nombreArchivo = valor;
+    archivoArbol = nombreArchivo;
     archivo.open(nombreArchivo);
     bool verificacionPalabra = true;
     if (!archivo.is_open())
@@ -283,6 +286,7 @@ void comandoIniciarArbolInverso(std::string valor, Tree<char> &arbolInv, std::ve
     
     std::ifstream archivo;
     std::string linea, nombreArchivo = valor;
+    archivoArbolInv = nombreArchivo;
     archivo.open(nombreArchivo);
     bool verificacionPalabra = true;
 
@@ -313,20 +317,28 @@ void comandoIniciarArbolInverso(std::string valor, Tree<char> &arbolInv, std::ve
     std::cout << "El arbol de ha inicializado correctamente" << std::endl;
     return;
 }
-void comandoPalabrasPorPrefijo(std::string valor)
+void comandoPalabrasPorPrefijo(std::string valor, Tree<char> &arbol)
 {
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente prefijo " << std::endl;
     }
+
+    std::string prefijo = valor;
+    arbol.prefijo(prefijo, archivoArbol);
+
     return;
 }
-void comandoPalabrasPorSufijo(std::string valor)
+void comandoPalabrasPorSufijo(std::string valor, Tree<char> &arbolInv)
 {
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente sufijo " << std::endl;
     }
+
+    std::string sufijo = valor;
+    arbolInv.sufijo(sufijo, archivoArbolInv);
+
     return;
 }
 void comandoPosiblesPalabras(std::string valor)
@@ -427,12 +439,12 @@ int main(int argc, char *argv[])
         else if (funcion.compare("palabras_por_prefijo") == 0)
         {
             std::system("clear");
-            comandoPalabrasPorPrefijo(valor);
+            comandoPalabrasPorPrefijo(valor, arbol);
         }
         else if (funcion.compare("palabras_por_sufijo") == 0)
         {
             std::system("clear");
-            comandoPalabrasPorSufijo(valor);
+            comandoPalabrasPorSufijo(valor, arbolInv);
         }
         else if (funcion.compare("grafo_de_palabras") == 0)
         {

@@ -48,6 +48,7 @@
         "compare": "cpp",
         "concepts": "cpp",
         "ranges": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "cstring": "cpp"
     }
 }
