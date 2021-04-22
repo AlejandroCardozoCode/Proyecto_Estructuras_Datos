@@ -222,16 +222,29 @@ void comandoPuntaje(std::string valor, std::deque<Diccionario> &listaDiccionario
     }
     std::cout << "La palabra tiene un puntaje de puntaje:" << puntaje << std::endl;
 }
-void comandoIniciarArbol(std::string valor, Tree<char> &arbol)
+
+void comandoIniciarArbol(std::string valor, Tree<char> &arbol, std::vector<std::string>& arbolesNormales)
 {
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente un archivo de texto " << std::endl;
     }
+    std::vector<std::string>::iterator it;
+    it = find(arbolesNormales.begin(), arbolesNormales.end(), valor);
+    if (it != arbolesNormales.end())
+    {
+        std::cout << "El Arbol del diccionario ya ha sido inicializado " << std::endl;
+        return;
+    }
     std::ifstream archivo;
     std::string linea, nombreArchivo = valor;
     archivo.open(nombreArchivo);
     bool verificacionPalabra = true;
+    if (!archivo.is_open())
+    {
+        std::cout << "El archivo " << valor << " no existe o no puede ser leido " << std::endl;
+        return;
+    }
     if (archivo.is_open())
     {
         while (std::getline(archivo, linea))
@@ -248,17 +261,37 @@ void comandoIniciarArbol(std::string valor, Tree<char> &arbol)
         }
         archivo.close();
     }
+    arbolesNormales.push_back(valor);
+    std::cout << "El arbol de ha inicializado correctamente" << std::endl;
+    return;
 }
-void comandoIniciarArbolInverso(std::string valor, Tree<char> &arbolInv)
+void comandoIniciarArbolInverso(std::string valor, Tree<char> &arbolInv, std::vector<std::string>& arbolesInversos)
 {
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente un archivo de texto " << std::endl;
     }
+
+    std::vector<std::string>::iterator it;
+    it = find(arbolesInversos.begin(), arbolesInversos.end(), valor);
+
+    if (it != arbolesInversos.end())
+    {
+        std::cout << "El Arbol del diccionario ya ha sido inicializado " << std::endl;
+        return;
+    }
+    
     std::ifstream archivo;
     std::string linea, nombreArchivo = valor;
     archivo.open(nombreArchivo);
     bool verificacionPalabra = true;
+
+    if (!archivo.is_open())
+    {
+        std::cout << "El archivo " << valor << " no existe o no puede ser leido " << std::endl;
+        return;
+    }
+
     if (archivo.is_open())
     {
         while (std::getline(archivo, linea))
@@ -276,6 +309,8 @@ void comandoIniciarArbolInverso(std::string valor, Tree<char> &arbolInv)
         }
         archivo.close();
     }
+    arbolesInversos.push_back(valor);
+    std::cout << "El arbol de ha inicializado correctamente" << std::endl;
     return;
 }
 void comandoPalabrasPorPrefijo(std::string valor)
@@ -315,7 +350,9 @@ int main(int argc, char *argv[])
 {
     int loop = 0;
     std::deque<Diccionario> listaDiccionarios;
-
+    Tree<char> arbolInv;
+    Tree<char> arbol;
+    std::vector<std::string> arbolesNormales, arbolesInversos;
     std::system("clear");
     while (loop == 0)
     {
@@ -324,8 +361,6 @@ int main(int argc, char *argv[])
         std::cout << "$: ";
         std::getline(std::cin, funcion_valor);
         int contador = 0;
-        Tree<char> arbolInv;
-        Tree<char> arbol;
         for (auto x : funcion_valor)
         {
             if (x == ' ')
@@ -382,12 +417,12 @@ int main(int argc, char *argv[])
         else if (funcion.compare("iniciar_arbol") == 0)
         {
             std::system("clear");
-            comandoIniciarArbol(valor, arbol);
+            comandoIniciarArbol(valor, arbol, arbolesNormales);
         }
         else if (funcion.compare("iniciar_arbol_inverso") == 0)
         {
             std::system("clear");
-            comandoIniciarArbolInverso(valor, arbolInv);
+            comandoIniciarArbolInverso(valor, arbolInv, arbolesInversos);
         }
         else if (funcion.compare("palabras_por_prefijo") == 0)
         {
