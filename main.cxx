@@ -3,11 +3,12 @@
 
 #include <iostream>
 #include <fstream>
-#include <deque>
+#include <vector>
 #include "diccionario.h"
 #include <algorithm>
 #include "utilidades.h"
 #include "arbol.h"
+#include "grafo.h"
 
 std::string archivoArbol = "";
 std::string archivoArbolInv = "";
@@ -25,7 +26,7 @@ bool verificarPalabra(std::string linea)
     return verificacionPalabra;
 }
 
-void comandoInicializar(std::string valor, std::deque<Diccionario> &listaDiccionarios)
+void comandoInicializar(std::string valor, std::vector<Diccionario> &listaDiccionarios)
 {
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
@@ -37,10 +38,10 @@ void comandoInicializar(std::string valor, std::deque<Diccionario> &listaDiccion
     int lineasArchivo = 0, contadorPalabrasNoValidas = 0;
     bool verificacionPalabra = true;
     Diccionario diccionarioAux;
-    std::deque<std::string> palabrasAux;
+    std::vector<std::string> palabrasAux;
     int contador = 0;
 
-    std::deque<Diccionario>::iterator itDiccionario;
+    std::vector<Diccionario>::iterator itDiccionario;
 
     for (itDiccionario = listaDiccionarios.begin(); itDiccionario != listaDiccionarios.end(); itDiccionario++)
     {
@@ -84,7 +85,7 @@ void comandoInicializar(std::string valor, std::deque<Diccionario> &listaDiccion
     return;
 }
 
-void comandoInicializarInverso(std::string valor, std::deque<Diccionario> &listaDiccionarios)
+void comandoInicializarInverso(std::string valor, std::vector<Diccionario> &listaDiccionarios)
 {
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
 
@@ -97,9 +98,9 @@ void comandoInicializarInverso(std::string valor, std::deque<Diccionario> &lista
     int lineasArchivo = 0, contadorPalabrasNoValidas = 0;
     bool verificacionPalabra = true;
     Diccionario diccionarioAux;
-    std::deque<std::string> palabrasAux;
+    std::vector<std::string> palabrasAux;
 
-    std::deque<Diccionario>::iterator itDiccionario;
+    std::vector<Diccionario>::iterator itDiccionario;
 
     for (itDiccionario = listaDiccionarios.begin(); itDiccionario != listaDiccionarios.end(); itDiccionario++)
     {
@@ -203,10 +204,10 @@ int puntos(char letra)
 }
 
 
-void comandoPuntaje(std::string valor, std::deque<Diccionario> &listaDiccionarios)
+void comandoPuntaje(std::string valor, std::vector<Diccionario> &listaDiccionarios)
 {
     int puntaje = 0;
-    std::deque<Diccionario>::iterator itDiccionario;
+    std::vector<Diccionario>::iterator itDiccionario;
     bool palabraNormal = false, palabraInversa = false;
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
@@ -359,6 +360,7 @@ void comandoPalabrasPorSufijo(std::string valor, Tree<char> &arbolInv)
 
     return;
 }
+
 void comandoPosiblesPalabras(std::string valor)
 {
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
@@ -367,22 +369,46 @@ void comandoPosiblesPalabras(std::string valor)
     }
     return;
 }
-void comandoGrafoDePalabras(std::string valor)
+void comandoGrafoDePalabras(std::string valor, Grafo &grafo, Diccionario diccionario)
 {
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente una cadena de letras " << std::endl;
     }
+    int comparacionValidacion = 0;
+    std::vector<std::string> listaPalabras = diccionario.obtenerPalabras();
+    std::vector<std::string> auxPalabras = listaPalabras;
+    std::cout << "insertando los datos" << std::endl;
+    grafo.iniciarMatrix(listaPalabras.size());
+    grafo.insertarVertice(listaPalabras);
+    std::cout << "termino la insertcion de los datos " << std::endl;
+
+    for (int i = 0; i < listaPalabras.size(); i++)
+    {
+        for (int j = 0; j <auxPalabras.size(); j++)
+        {
+            comparacionValidacion = compararPalabra(listaPalabras[i],auxPalabras[j]);
+            if(comparacionValidacion != -1)
+            {
+                grafo.insetarArista(listaPalabras[i],auxPalabras[j], comparacionValidacion);
+            }
+        }
+        auxPalabras.erase(auxPalabras.begin());
+    }
+    std::cout << "termino la insertcion de las aristas " << std::endl;
+    grafo.imprimirVertices();
+    //grafo.imprimirMatrix();
     return;
 }
 
 int main(int argc, char *argv[])
 {
     int loop = 0;
-    std::deque<Diccionario> listaDiccionarios;
+    std::vector<Diccionario> listaDiccionarios;
     Tree<char> arbolInv;
     Tree<char> arbol;
     std::vector<std::string> arbolesNormales, arbolesInversos;
+    Grafo grafo;
     std::system("clear");
     while (loop == 0)
     {
@@ -467,7 +493,7 @@ int main(int argc, char *argv[])
         else if (funcion.compare("grafo_de_palabras") == 0)
         {
             std::system("clear");
-            comandoGrafoDePalabras(valor);
+            comandoGrafoDePalabras(valor, grafo, listaDiccionarios[0]);
         }
         else if (funcion.compare("posibles_palabras") == 0)
         {

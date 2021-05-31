@@ -9,12 +9,12 @@ class Diccionario
     //atributos
     protected:
     std::string nombre;
-    std::deque <std::string> listaPalabras;
+    std::vector <std::string> listaPalabras;
     //funciones
     public:
     Diccionario();
     std::string obtenerNombre();
-    std::deque <std::string> obtenerPalabras();
+    std::vector <std::string> obtenerPalabras();
     void fiajarNombre(std::string nombreP);
     bool existePalabra(std::string palabra);
     void insertarPalabra(std::string palabraP);

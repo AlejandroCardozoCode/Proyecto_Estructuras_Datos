@@ -3,9 +3,9 @@
 Diccionario::Diccionario()
 {
     nombre = "";
-    std::deque<std::string> listaPalabras;
+    std::vector<std::string> listaPalabras;
 }
-std::deque<std::string> Diccionario::obtenerPalabras()
+std::vector<std::string> Diccionario::obtenerPalabras()
 {
     return listaPalabras;
 }
@@ -33,7 +33,7 @@ void Diccionario::verificarRepetidas()
 bool Diccionario::existePalabraInv(std::string palabra)
 {
     std::reverse(palabra.begin(), palabra.end());
-    std::deque<std::string>::iterator itPalabra;
+    std::vector<std::string>::iterator itPalabra;
     for (itPalabra = listaPalabras.begin(); itPalabra != listaPalabras.end(); itPalabra++)
     {
         if (*itPalabra == palabra)
@@ -45,7 +45,7 @@ bool Diccionario::existePalabraInv(std::string palabra)
 }
 bool Diccionario::existePalabra(std::string palabra)
 {
-    std::deque<std::string>::iterator itPalabra;
+    std::vector<std::string>::iterator itPalabra;
     for (itPalabra = listaPalabras.begin(); itPalabra != listaPalabras.end(); itPalabra++)
     {
         if (*itPalabra == palabra)
@@ -59,7 +59,7 @@ bool Diccionario::existePalabra(std::string palabra)
 void Diccionario::imprimirDiccionario()
 {
     std::cout << "Diccionario: " << nombre << "tiene las palabras" << std::endl;
-    std::deque<std::string>::iterator itPalabra;
+    std::vector<std::string>::iterator itPalabra;
     for (itPalabra = listaPalabras.begin(); itPalabra != listaPalabras.end(); itPalabra++)
     {
         std::cout << *itPalabra << std::endl;

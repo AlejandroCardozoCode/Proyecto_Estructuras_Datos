@@ -226,41 +226,57 @@ void Tree<T>::sufijo(std::string &sufijo, std::string nombreArchivo)
 template <class T>
 int Tree<T>::calcularPuntos(char letra)
 {
-  std::string pun1, pun2, pun3, pun4, pun8, pun10;
-  pun1 = "eaionrtlsu";
-  pun2 = "dg";
-  pun3 = "bcmp";
-  pun4 = "fhvwy";
-  pun8 = "jx";
-  pun10 = "qz";
-  if (letra == 'k')
-    return 5;
-  for (int i = 0; i < pun1.size(); i++)
-  {
-    if (pun1[i] == letra)
+std::string pun1, pun2, pun3, pun4, pun8, pun10;
+    pun1 = "eaionrtlsu";
+    pun2 = "dg";
+    pun3 = "bcmp";
+    pun4 = "fhvwy";
+    pun8 = "jx";
+    pun10 = "qz";
+    if (letra == 'k')
+        return 5;
+    for (int i = 0; i < pun1.size(); i++)
     {
-      return 1;
+        if (pun1[i] == letra)
+        {
+            return 1;
+        }
     }
-    else if (pun2[i] == letra)
+    for (int i = 0; i < pun2.size(); i++)
     {
-      return 2;
+        if (pun2[i] == letra)
+        {
+            return 2;
+        }
     }
-    else if (pun3[i] == letra)
+
+    for (int i = 0; i < pun3.size(); i++)
     {
-      return 3;
+        if (pun3[i] == letra)
+        {
+            return 3;
+        }
     }
-    else if (pun4[i] == letra)
+    for (int i = 0; i < pun4.size(); i++)
     {
-      return 4;
+        if (pun4[i] == letra)
+        {
+            return 4;
+        }
     }
-    else if (pun8[i] == letra)
+    for (int i = 0; i < pun8.size(); i++)
     {
-      return 8;
+        if (pun8[i] == letra)
+        {
+            return 8;
+        }
     }
-    else if (pun10[i] == letra)
+    for (int i = 0; i < pun10.size(); i++)
     {
-      return 10;
+        if (pun10[i] == letra)
+        {
+            return 10;
+        }
     }
-  }
-  return -1;
+    return -1;
 }

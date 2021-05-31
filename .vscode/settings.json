@@ -49,6 +49,7 @@
         "concepts": "cpp",
         "ranges": "cpp",
         "list": "cpp",
-        "cstring": "cpp"
+        "cstring": "cpp",
+        "set": "cpp"
     }
 }
