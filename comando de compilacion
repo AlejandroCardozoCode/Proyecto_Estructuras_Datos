@@ -11,7 +11,7 @@ puntaje kcaba
 iniciar_arbol englishWords-3.txt
 iniciar_arbol_inverso englishWords-3.txt
 iniciar_arbol englishWords-1.txt
-iniciar_arbol englishWords-2.txt
+iniciar_arbol_inverso englishWords-1.txt
 
 palabras_por_prefijo hol
 palabras_por_prefijo kkl

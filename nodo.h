@@ -14,7 +14,6 @@ class Nodo {
   public:
     Nodo();
     Nodo(T val);
-    ~Nodo();
     T obtenerDato();
     void fijarDato(T val);
     std::vector<Nodo<T>>* obtenerHijos();
