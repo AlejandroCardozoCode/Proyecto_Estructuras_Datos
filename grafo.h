@@ -11,29 +11,32 @@
 #include <string>
 #include <stdint.h>
 
+struct Conexiones
+{
+    int posicion;
+    int peso;
+
+};
 
 
 class Grafo
 {
 protected:
-    std::vector<std::string> verticesArreglo;
-    std::vector<std::vector<uint8_t>> matrixAristas;
-    uint8_t tamanoPalabras;
+    std::vector<std::string> arregloVertices;
+    std::vector<std::vector<Conexiones>> lista;
+    int tamanoPalabrasGrafo;
 public:
-    void iniciarMatrix(int tamano);
-    void insertarVertice(std::vector<std::string> listaPalabras);
-    int buscarVerticePosicion(std::string verticeBuscar);
-    void insetarArista(std::string puntoInicio, std::string puntoFinal, uint8_t costo);
-    std::string buscarVerticePorPosicion(uint8_t posicion);
+    void insertarVertice(std::vector<std::string> palabra);
+    int obtenerPosicionVertice(std::string verticeBuscar);
+    int existeConexion(int indiceInicio, int indiceFinal);
+    void insetarArista(std::string puntoInicio, std::string puntoFinal, int costo);
+    std::string obtenerVerticeDatoPorPosicion (int posicion);
     int obtenerTamanoArregloVectores();
-    void imprimirVertices();
-    void imprimirMatrix();
-    void fijarTamanoPalabras(uint8_t tamano);
-    uint8_t obtenerTamanoPalabras();
-    //Dijkstra
-    std::vector<uint8_t> encontrarVecinosVertice(uint8_t vertice);
-    std::vector<std::string> dijkstra(uint8_t inicio, uint8_t final);
-    uint8_t buscarPosicionVerticeMenorCosto(std::vector<uint8_t> arregloDistancias, std::vector<uint8_t> arregloVerticesFuncion);
+    void imprimirVertices(); 
+    void imprimirConexiones();
+    void fijarTamanoGrafo(int valor);
+    int obtenerTamanoGrafo();
+
 };
 
 #include "grafo.hxx"

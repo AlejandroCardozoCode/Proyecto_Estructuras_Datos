@@ -1,0 +1,41 @@
+[H[2J[3J$: [H[2J[3JEl diccionario se ha inicializado correctamente 
+$: [H[2J[3Jinsertando los datos
+termino la insertcion de los datos 
+termino la insertcion de las aristas del grafo: 0
+dsa
+insertando los datos
+termino la insertcion de los datos 
+termino la insertcion de las aristas del grafo: 1
+fdsa
+hoja
+hola
+pena
+pene
+insertando los datos
+termino la insertcion de los datos 
+termino la insertcion de las aristas del grafo: 2
+holaqjkh
+holarika
+insertando los datos
+termino la insertcion de los datos 
+termino la insertcion de las aristas del grafo: 3
+holar
+insertando los datos
+termino la insertcion de los datos 
+termino la insertcion de las aristas del grafo: 4
+holari
+holita
+holota
+insertando los datos
+termino la insertcion de los datos 
+termino la insertcion de las aristas del grafo: 5
+holarik
+insertando los datos
+termino la insertcion de los datos 
+termino la insertcion de las aristas del grafo: 6
+holarikas
+insertando los datos
+termino la insertcion de los datos 
+termino la insertcion de las aristas del grafo: 7
+sa
+$: [H[2J[3JSaliendo del sistema...
