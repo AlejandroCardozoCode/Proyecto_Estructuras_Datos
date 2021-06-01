@@ -3,7 +3,7 @@
 
 void Grafo::iniciarMatrix(int tamano)
 {
-    matrixAristas.assign(tamano, std::vector<short>(tamano, 0));
+    matrixAristas.assign(tamano, std::vector<uint8_t>(tamano, 0));
 }
 
 
@@ -28,7 +28,7 @@ int Grafo::buscarVerticePosicion(std::string verticeBuscar)
     }
 }
 
-void Grafo::insetarArista(std::string puntoInicio, std::string puntoFinal, short costo)
+void Grafo::insetarArista(std::string puntoInicio, std::string puntoFinal, uint8_t costo)
 {
     int posicionVerticeInicio, posicionVerticeFinal;
     posicionVerticeInicio = buscarVerticePosicion(puntoInicio);
@@ -48,7 +48,7 @@ void Grafo::insetarArista(std::string puntoInicio, std::string puntoFinal, short
     }
 }
 
-std::string Grafo::buscarVerticePorPosicion(short posicion)
+std::string Grafo::buscarVerticePorPosicion(uint8_t posicion)
 {
     typename std::vector<std::string>::iterator it = verticesArreglo.begin() + posicion;
     std::string aux = *it;
@@ -75,9 +75,9 @@ void Grafo::imprimirMatrix()
 }
 
 
-std::vector<short> Grafo::encontrarVecinosVertice(short vertice)
+std::vector<uint8_t> Grafo::encontrarVecinosVertice(uint8_t vertice)
 {
-    std::vector<short> vecinos;
+    std::vector<uint8_t> vecinos;
     for (int i = 0; i < obtenerTamanoArregloVectores(); i++)
     {
         if (matrixAristas[i][(int)vertice] != 0)
@@ -100,16 +100,16 @@ void Grafo::imprimirVertices()
 
 
 
-std::vector<std::string> Grafo::dijkstra(short inicio, short final)
+std::vector<std::string> Grafo::dijkstra(uint8_t inicio, uint8_t final)
 {
-    std::vector<short> arregloDistancias;        //dis
-    std::vector<short> arregloPredecesores;      //pre
-    std::vector<short> arregloVerticesVisitados; //S
-    std::vector<short> arregloVerticesFuncion;   //Q
-    std::vector<short> vecinosActual;
+    std::vector<uint8_t> arregloDistancias;        //dis
+    std::vector<uint8_t> arregloPredecesores;      //pre
+    std::vector<uint8_t> arregloVerticesVisitados; //S
+    std::vector<uint8_t> arregloVerticesFuncion;   //Q
+    std::vector<uint8_t> vecinosActual;
     std::vector<std::string> camino;
     bool caminoEncontrado = false;
-    short posicionMenorCosto, posicionPuntoInicial, posicionPuntoFinal;
+    uint8_t posicionMenorCosto, posicionPuntoInicial, posicionPuntoFinal;
     std::string verticeMenorDistancia;
     posicionPuntoInicial = inicio;
     posicionPuntoFinal = final;
@@ -193,7 +193,7 @@ std::vector<std::string> Grafo::dijkstra(short inicio, short final)
 }
 
 
-short Grafo::buscarPosicionVerticeMenorCosto(std::vector<short> arregloDistancias, std::vector<short> arregloVerticesFuncion)
+uint8_t Grafo::buscarPosicionVerticeMenorCosto(std::vector<uint8_t> arregloDistancias, std::vector<uint8_t> arregloVerticesFuncion)
 {
     float posicionMenor = -1, valorMenor = INFINITY; 
 
@@ -209,13 +209,13 @@ short Grafo::buscarPosicionVerticeMenorCosto(std::vector<short> arregloDistancia
 }
 
 
-void Grafo::fijarTamanoPalabras(short tamano) 
+void Grafo::fijarTamanoPalabras(uint8_t tamano) 
 {
     tamanoPalabras = tamano;
 }
 
 
-short Grafo::obtenerTamanoPalabras() 
+uint8_t Grafo::obtenerTamanoPalabras() 
 {
     return tamanoPalabras;
 }   
