@@ -4,14 +4,54 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "diccionario.h"
 #include <algorithm>
 #include "utilidades.h"
-#include "arbol.h"
-#include "grafo.h"
+#include "tadMaestro.h"
 
 std::string archivoArbol = "";
 std::string archivoArbolInv = "";
+
+std::vector<std::vector<GestorPalabras>> llenadoArregloComparacionPalabras(std::vector<std::string> listaPalabras)
+{
+    std::vector<std::vector<GestorPalabras>> arreglo;
+    std::vector<GestorPalabras> arregloPequeno;
+    GestorPalabras aux;
+    bool encontrado = false;
+    for (int i = 0; i < listaPalabras.size(); i++)
+    {
+        if (arreglo.empty())
+        {
+            aux.palabras = listaPalabras[i];
+            aux.tamano = listaPalabras[i].length();
+            arregloPequeno.push_back(aux);
+            arreglo.push_back(arregloPequeno);
+            arregloPequeno.clear();
+        }
+        else
+        {
+            encontrado = false;
+            for (int j = 0; j < arreglo.size(); j++)
+            {
+                if (arreglo[j][0].tamano == listaPalabras[i].length())
+                {
+                    aux.palabras = listaPalabras[i];
+                    aux.tamano = listaPalabras[i].length();
+                    arreglo[j].push_back(aux);
+                    encontrado = true;
+                }
+            }
+            if (!encontrado)
+            {
+                aux.palabras = listaPalabras[i];
+                aux.tamano = listaPalabras[i].length();
+                arregloPequeno.push_back(aux);
+                arreglo.push_back(arregloPequeno);
+                arregloPequeno.clear();
+            }
+        }
+    }
+    return arreglo;
+}
 
 bool verificarPalabra(std::string linea)
 {
@@ -203,7 +243,6 @@ int puntos(char letra)
     return -1;
 }
 
-
 void comandoPuntaje(std::string valor, std::vector<Diccionario> &listaDiccionarios)
 {
     int puntaje = 0;
@@ -378,6 +417,22 @@ void comandoGrafoDePalabras(std::string valor, Grafo &grafo, Diccionario diccion
     int comparacionValidacion = 0;
     std::vector<std::string> listaPalabras = diccionario.obtenerPalabras();
     std::vector<std::string> auxPalabras = listaPalabras;
+    std::vector<std::vector<GestorPalabras>> arregloTamanoPalabras = llenadoArregloComparacionPalabras(listaPalabras);
+    /*
+    for (int i = 0; i < listaPalabras.size(); i++)
+    {
+        std::cout << listaPalabras[i] << std::endl;
+    }
+    std::cout << "-------------------------" << std::endl;
+    for (int i = 0; i < arregloTamanoPalabras.size(); i++)
+    {
+        std::cout << "imprimiendo palabras de tamano" << arregloTamanoPalabras[i][0].tamano << std::endl;
+        for (int j = 0; j < arregloTamanoPalabras[i].size(); j++)
+        {
+            std::cout << arregloTamanoPalabras[i][j].palabras << std::endl;
+        }
+    }
+    */
     std::cout << "insertando los datos" << std::endl;
     grafo.iniciarMatrix(listaPalabras.size());
     grafo.insertarVertice(listaPalabras);
@@ -385,30 +440,40 @@ void comandoGrafoDePalabras(std::string valor, Grafo &grafo, Diccionario diccion
 
     for (int i = 0; i < listaPalabras.size(); i++)
     {
-        for (int j = 0; j <auxPalabras.size(); j++)
+        for (int j = 0; j < arregloTamanoPalabras.size(); j++)
         {
-            comparacionValidacion = compararPalabra(listaPalabras[i],auxPalabras[j]);
-            if(comparacionValidacion != -1)
+            if (arregloTamanoPalabras[j][0].tamano == listaPalabras[i].length())
             {
-                grafo.insetarArista(listaPalabras[i],auxPalabras[j], comparacionValidacion);
+                for (int k = 0; k < arregloTamanoPalabras[j].size(); k++)
+                {
+                    comparacionValidacion = compararPalabra(listaPalabras[i], arregloTamanoPalabras[j][k].palabras);
+                    if (comparacionValidacion != -1)
+                    {
+                        std::cout << " hay conexion entre " << listaPalabras[i] << " y " << arregloTamanoPalabras[j][k].palabras << std::endl;
+                        grafo.insetarArista(listaPalabras[i], arregloTamanoPalabras[j][k].palabras, comparacionValidacion);
+                    }
+                }
             }
         }
         auxPalabras.erase(auxPalabras.begin());
     }
     std::cout << "termino la insertcion de las aristas " << std::endl;
-    grafo.imprimirVertices();
-    //grafo.imprimirMatrix();
+    //grafo.imprimirVertices();
+    grafo.imprimirMatrix();
     return;
 }
 
 int main(int argc, char *argv[])
 {
     int loop = 0;
-    std::vector<Diccionario> listaDiccionarios;
+    TadMaestro maestro;
+    std::vector<Diccionario> listaDiccionarios = maestro.obtenerDiccionarios();
+    std::vector<std::string> arbolesNormales = maestro.obtenerArbolNormales();
+    std::vector<std::string> arbolesInversos = maestro.obtenerArbolInversos();
+    std::vector<std::vector<GestorPalabras>> arregloComparacionPalabras;
+    Grafo grafo = maestro.obtenerGrafo();
     Tree<char> arbolInv;
     Tree<char> arbol;
-    std::vector<std::string> arbolesNormales, arbolesInversos;
-    Grafo grafo;
     std::system("clear");
     while (loop == 0)
     {

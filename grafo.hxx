@@ -1,13 +1,9 @@
 #include "grafo.h"
+#include <algorithm>
 
 void Grafo::iniciarMatrix(int tamano)
 {
-    matrixAristas = new int*[tamano];
-    //Dynamically allocating column space in heap
-    for(int i=0; i<tamano; i++){
-        matrixAristas[i] = new int[tamano];
-    }
-    return;
+    matrixAristas.assign(tamano, std::vector<float>(tamano, 0));
 }
 
 

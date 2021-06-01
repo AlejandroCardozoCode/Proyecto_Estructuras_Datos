@@ -10,12 +10,13 @@
 #include <unistd.h>
 #include <string>
 
+
+
 class Grafo
 {
 protected:
     std::vector<std::string> verticesArreglo;
-    int** matrixAristas;
-
+    std::vector<std::vector<float>> matrixAristas;
 public:
     void iniciarMatrix(int tamano);
     void insertarVertice(std::vector<std::string> listaPalabras);

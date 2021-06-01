@@ -35,17 +35,9 @@ int compararPalabra(std::string palabra1, std::string palabra2)
 
 int main ()
 {
-    std::deque<int> listaFinal;
+    int matriz[0][0];
 
-    for (int i = 0; i < 15; i++)
-    {
-        listaFinal.push_back(i);
-    }
-    listaFinal.erase(listaFinal.begin());
-    for (int i = 0; i < listaFinal.size(); i++)
-    {
-        std::cout << listaFinal[i] << std::endl;
-    }
+    matriz = new int [10][10];
     
     return 0;
 }

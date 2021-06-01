@@ -18,5 +18,14 @@ palabras_por_prefijo kkl
 
 palabras_por_sufijo al
 
+//pruebas 3
 
+
+inicializar englishWords-3.txt
+grafo_de_palabras 1
+
+inicializar englishWords-2.txt
+grafo_de_palabras 1
+
+inicializar englishWords-1.txt
 grafo_de_palabras 1

@@ -1,5 +1,22 @@
 #include "utilidades.h"
 
+
+struct GestorPalabras
+{
+    std::string palabras;
+    int tamano;
+
+    bool operator==(const GestorPalabras &other) const
+    {
+        if (palabras == other.palabras)
+            return true;
+        else
+        {
+            return  false;
+        }
+    }
+};
+
 void impresionAyuda()
 {
     std::cout << "comandos validos:" << std::endl
@@ -72,7 +89,7 @@ void impresionAyudaEspecifico(std::string valor)
 
 int compararPalabra(std::string palabra1, std::string palabra2) 
 {
-    int contador = 0, posiscionLetraDif = 0;
+    int contador = 0, posiscionLetraDif = 0, dif = 0;
     if(palabra1.length() != palabra2.length())
     {
         return -1;
@@ -87,6 +104,11 @@ int compararPalabra(std::string palabra1, std::string palabra2)
         else
         {
             posiscionLetraDif = i;
+            dif++;
+            if(dif > 1 )
+            {
+                return -1;
+            }
         }
     }
 
