@@ -16,20 +16,23 @@ class Grafo
 {
 protected:
     std::vector<std::string> verticesArreglo;
-    std::vector<std::vector<float>> matrixAristas;
+    std::vector<std::vector<short>> matrixAristas;
+    short tamanoPalabras;
 public:
     void iniciarMatrix(int tamano);
     void insertarVertice(std::vector<std::string> listaPalabras);
     int buscarVerticePosicion(std::string verticeBuscar);
-    void insetarArista(std::string puntoInicio, std::string puntoFinal, float costo);
-    std::string buscarVerticePorPosicion(float posicion);
+    void insetarArista(std::string puntoInicio, std::string puntoFinal, short costo);
+    std::string buscarVerticePorPosicion(short posicion);
     int obtenerTamanoArregloVectores();
     void imprimirVertices();
     void imprimirMatrix();
+    void fijarTamanoPalabras(short tamano);
+    short obtenerTamanoPalabras();
     //Dijkstra
-    std::vector<float> encontrarVecinosVertice(float vertice);
-    std::vector<std::string> dijkstra(float inicio, float final);
-    float buscarPosicionVerticeMenorCosto(std::vector<float> arregloDistancias, std::vector<float> arregloVerticesFuncion);
+    std::vector<short> encontrarVecinosVertice(short vertice);
+    std::vector<std::string> dijkstra(short inicio, short final);
+    short buscarPosicionVerticeMenorCosto(std::vector<short> arregloDistancias, std::vector<short> arregloVerticesFuncion);
 };
 
 #include "grafo.hxx"

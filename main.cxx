@@ -408,7 +408,7 @@ void comandoPosiblesPalabras(std::string valor)
     }
     return;
 }
-void comandoGrafoDePalabras(std::string valor, Grafo &grafo, Diccionario diccionario)
+void comandoGrafoDePalabras(std::string valor, std::vector<Grafo> &grafos, Diccionario diccionario)
 {
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
@@ -416,8 +416,9 @@ void comandoGrafoDePalabras(std::string valor, Grafo &grafo, Diccionario diccion
     }
     int comparacionValidacion = 0;
     std::vector<std::string> listaPalabras = diccionario.obtenerPalabras();
-    std::vector<std::string> auxPalabras = listaPalabras;
+    std::vector<std::string> auxPalabras;
     std::vector<std::vector<GestorPalabras>> arregloTamanoPalabras = llenadoArregloComparacionPalabras(listaPalabras);
+    Grafo grafo;
     /*
     for (int i = 0; i < listaPalabras.size(); i++)
     {
@@ -433,33 +434,60 @@ void comandoGrafoDePalabras(std::string valor, Grafo &grafo, Diccionario diccion
         }
     }
     */
-    std::cout << "insertando los datos" << std::endl;
-    grafo.iniciarMatrix(listaPalabras.size());
-    grafo.insertarVertice(listaPalabras);
-    std::cout << "termino la insertcion de los datos " << std::endl;
-
-    for (int i = 0; i < listaPalabras.size(); i++)
+    for (int x = 0; x < arregloTamanoPalabras.size(); x++)
     {
+        /* code */
+
+        std::cout << "insertando los datos" << std::endl;
+        grafo.iniciarMatrix(arregloTamanoPalabras[x].size());
+        std::vector<std::string> palabrasGrafo;
+
+        for (int v = 0; v < arregloTamanoPalabras[x].size(); v++)
+        {
+            palabrasGrafo.push_back(arregloTamanoPalabras[x][v].palabras);
+        }
+
+        auxPalabras = palabrasGrafo;
+
+        grafo.insertarVertice(palabrasGrafo);
+        std::cout << "termino la insertcion de los datos " << std::endl;
+
+        for (int i = 0; i < palabrasGrafo.size(); i++)
+        {
+            for (int j = 0; j < auxPalabras.size(); j++)
+            {
+                comparacionValidacion = compararPalabra(palabrasGrafo[i], auxPalabras[j]);
+                if (comparacionValidacion != -1)
+                {
+                    //std::cout << " hay conexion entre " << listaPalabras[i] << " y " << arregloTamanoPalabras[j][k].palabras << std::endl;
+                    grafo.insetarArista(palabrasGrafo[i], auxPalabras[j], comparacionValidacion);
+                }
+            }
+
+            /*
         for (int j = 0; j < arregloTamanoPalabras.size(); j++)
         {
-            if (arregloTamanoPalabras[j][0].tamano == listaPalabras[i].length())
+            if (arregloTamanoPalabras[j][0].tamano == palabrasGrafo[i].length())
             {
                 for (int k = 0; k < arregloTamanoPalabras[j].size(); k++)
                 {
-                    comparacionValidacion = compararPalabra(listaPalabras[i], arregloTamanoPalabras[j][k].palabras);
+                    comparacionValidacion = compararPalabra(palabrasGrafo[i], arregloTamanoPalabras[j][k].palabras);
                     if (comparacionValidacion != -1)
                     {
-                        std::cout << " hay conexion entre " << listaPalabras[i] << " y " << arregloTamanoPalabras[j][k].palabras << std::endl;
-                        grafo.insetarArista(listaPalabras[i], arregloTamanoPalabras[j][k].palabras, comparacionValidacion);
+                        //std::cout << " hay conexion entre " << listaPalabras[i] << " y " << arregloTamanoPalabras[j][k].palabras << std::endl;
+                        grafo.insetarArista(palabrasGrafo[i], arregloTamanoPalabras[j][k].palabras, comparacionValidacion);
                     }
                 }
             }
         }
-        auxPalabras.erase(auxPalabras.begin());
+        */
+            auxPalabras.erase(auxPalabras.begin());
+        }
+        std::cout << "termino la insertcion de las aristas del grafo: " << x << std::endl;
+        //std::cout << "sus matrix y sus datos son" << std::endl;
+        //grafo.imprimirVertices();
+        //grafo.imprimirMatrix();
     }
-    std::cout << "termino la insertcion de las aristas " << std::endl;
-    //grafo.imprimirVertices();
-    grafo.imprimirMatrix();
     return;
 }
 
@@ -471,7 +499,7 @@ int main(int argc, char *argv[])
     std::vector<std::string> arbolesNormales = maestro.obtenerArbolNormales();
     std::vector<std::string> arbolesInversos = maestro.obtenerArbolInversos();
     std::vector<std::vector<GestorPalabras>> arregloComparacionPalabras;
-    Grafo grafo = maestro.obtenerGrafo();
+    std::vector<Grafo> arregloGrafos = maestro.obtenerGrafo();
     Tree<char> arbolInv;
     Tree<char> arbol;
     std::system("clear");
@@ -558,7 +586,7 @@ int main(int argc, char *argv[])
         else if (funcion.compare("grafo_de_palabras") == 0)
         {
             std::system("clear");
-            comandoGrafoDePalabras(valor, grafo, listaDiccionarios[0]);
+            comandoGrafoDePalabras(valor, arregloGrafos, listaDiccionarios[0]);
         }
         else if (funcion.compare("posibles_palabras") == 0)
         {

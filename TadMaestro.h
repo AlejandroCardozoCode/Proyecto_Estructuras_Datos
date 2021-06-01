@@ -10,17 +10,17 @@ class TadMaestro
 protected:
     std::vector<Diccionario> listaDiccionarios;
     std::vector<std::string> arbolesNormales, arbolesInversos;
-    Grafo grafo;
+    std::vector <Grafo> arregloGrafos;
 public:
     std::vector<Diccionario> obtenerDiccionarios();
     std::vector<std::string> obtenerArbolNormales();
     std::vector<std::string> obtenerArbolInversos(); 
-    Grafo obtenerGrafo();
+    std::vector <Grafo>  obtenerGrafo();
 
     void fijarDiccionario(std::vector<Diccionario> dic);
     void fijarArbolNormales( std::vector<std::string> arbol);
     void fijarArbolInversos( std::vector<std::string> arbol);
-    void fijarGrafo(Grafo grafoP);
+    void fijarGrafo(std::vector <Grafo>  grafoP);
 };
 
 #include "tadMaestro.hxx"

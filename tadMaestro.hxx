@@ -15,9 +15,9 @@ std::vector<std::string> TadMaestro::obtenerArbolInversos()
     return arbolesInversos;
 }
 
-Grafo TadMaestro::obtenerGrafo()
+std::vector <Grafo>  TadMaestro::obtenerGrafo()
 {
-    return grafo;
+    return arregloGrafos;
 }
 
 
@@ -40,9 +40,9 @@ void TadMaestro::fijarArbolInversos(std::vector<std::string> arbol)
 }
 
 
-void TadMaestro::fijarGrafo(Grafo grafoP) 
+void TadMaestro::fijarGrafo(std::vector <Grafo>  grafoP) 
 {
-    grafo = grafoP;
+    arregloGrafos = grafoP;
 }
 
 
