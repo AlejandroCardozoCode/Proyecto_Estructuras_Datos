@@ -21,6 +21,10 @@ void Diccionario::fiajarNombre(std::string nombreP)
 
 void Diccionario::insertarPalabra(std::string palabraP)
 {
+    for (int i = 0; i < palabraP.length(); i++)
+    {
+        palabraP[i] = tolower(palabraP[i]);
+    }
     listaPalabras.push_back(palabraP);
 }
 

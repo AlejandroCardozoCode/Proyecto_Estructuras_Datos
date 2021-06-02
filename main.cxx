@@ -11,18 +11,17 @@
 std::string archivoArbol = "";
 std::string archivoArbolInv = "";
 
-std::vector<std::vector<GestorPalabras>> llenadoArregloComparacionPalabras(std::vector<std::string> listaPalabras)
+std::vector<std::vector<std::string>> llenadoArregloComparacionPalabras(std::vector<std::string> listaPalabras)
 {
-    std::vector<std::vector<GestorPalabras>> arreglo;
-    std::vector<GestorPalabras> arregloPequeno;
-    GestorPalabras aux;
+    std::vector<std::vector<std::string>> arreglo;
+    std::vector<std::string> arregloPequeno;
+    std::string aux;
     bool encontrado = false;
     for (int i = 0; i < listaPalabras.size(); i++)
     {
         if (arreglo.empty())
         {
-            aux.palabras = listaPalabras[i];
-            aux.tamano = listaPalabras[i].length();
+            aux = listaPalabras[i];
             arregloPequeno.push_back(aux);
             arreglo.push_back(arregloPequeno);
             arregloPequeno.clear();
@@ -32,18 +31,16 @@ std::vector<std::vector<GestorPalabras>> llenadoArregloComparacionPalabras(std::
             encontrado = false;
             for (int j = 0; j < arreglo.size(); j++)
             {
-                if (arreglo[j][0].tamano == listaPalabras[i].length())
+                if (arreglo[j][0].length() == listaPalabras[i].length())
                 {
-                    aux.palabras = listaPalabras[i];
-                    aux.tamano = listaPalabras[i].length();
+                    aux = listaPalabras[i];
                     arreglo[j].push_back(aux);
                     encontrado = true;
                 }
             }
             if (!encontrado)
             {
-                aux.palabras = listaPalabras[i];
-                aux.tamano = listaPalabras[i].length();
+                aux = listaPalabras[i];
                 arregloPequeno.push_back(aux);
                 arreglo.push_back(arregloPequeno);
                 arregloPequeno.clear();
@@ -400,12 +397,90 @@ void comandoPalabrasPorSufijo(std::string valor, Tree<char> &arbolInv)
     return;
 }
 
-void comandoPosiblesPalabras(std::string valor)
+void comandoPosiblesPalabras(std::string cadena, std::vector<Grafo> &grafos)
 {
-    if (valor.compare(" ") == 0 || valor.compare("") == 0)
+    if (cadena.compare(" ") == 0 || cadena.compare("") == 0)
     {
-        std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente sufijo " << std::endl;
+        std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente una cadena de caracteres " << std::endl;
     }
+    std::vector<std::string> posiblesPalabras;
+
+    std::string::size_type pos;
+    pos = cadena.find('?');
+    int puntaje = 0;
+    // buscar en grafos qeu tengan el maximo tamaño de letras de la palabra o menos
+    if (pos != std::string::npos)
+    {
+        for (int i = 0; i < grafos.size(); i++)
+        {
+            if (grafos[i].obtenerTamanoGrafo() <= cadena.length())
+            {
+                // buscar palabras dentro del grafo que tengan las letras qeu estan en la palabra de parametro
+                // si existen se agregan a un vector de palabras posibles
+                std::vector<std::string> palabrasGrafo = grafos[i].obtenerArregloVertices();
+                for (int j = 0; j < palabrasGrafo.size(); j++)
+                {
+                    if (palabrasPosiblesVerificacion(cadena, palabrasGrafo[j], false) == 1)
+                    {
+                        posiblesPalabras.push_back(palabrasGrafo[j]);
+                    }
+                }
+            }
+        }
+        std::cout << "las posibles palabras son: " << std::endl;
+        for (int i = 0; i < posiblesPalabras.size(); i++)
+            {
+                for (int j = 0; j < posiblesPalabras[i].size(); j++)
+                {
+                    puntaje += puntos(posiblesPalabras[i][j]);
+                }
+                std::cout << posiblesPalabras[i] <<" |tamano: "<< posiblesPalabras[i].length() << " |puntaje " << puntaje << std::endl;
+                puntaje = 0;
+            }
+            
+    }
+    else
+    {
+        for (int i = 0; i < grafos.size(); i++)
+        {
+            if (grafos[i].obtenerTamanoGrafo() <= cadena.length())
+            {
+                // buscar palabras dentro del grafo que tengan las letras qeu estan en la palabra de parametro
+                // si existen se agregan a un vector de palabras posibles
+                std::vector<std::string> palabrasGrafo = grafos[i].obtenerArregloVertices();
+                for (int j = 0; j < palabrasGrafo.size(); j++)
+                {
+                    if (palabrasPosiblesVerificacion(cadena, palabrasGrafo[j], true) == 1)
+                    {
+                        posiblesPalabras.push_back(palabrasGrafo[j]);
+                    }
+                }
+            }
+        }
+        std::cout << "las posibles palabras son: " << std::endl;
+        if (posiblesPalabras.empty())
+        {
+            std::cout << "No existen palabras que se puedan formar con esa cadena" << std::endl;
+        }
+        else
+        {
+            
+            for (int i = 0; i < posiblesPalabras.size(); i++)
+            {
+                for (int j = 0; j < posiblesPalabras[i].size(); j++)
+                {
+                    puntaje += puntos(posiblesPalabras[i][j]);
+                }
+                std::cout << posiblesPalabras[i] <<" |tamano: "<< posiblesPalabras[i].length() << " |puntaje " << puntaje << std::endl;
+                puntaje = 0;
+            }
+        }
+    }
+
+    // buscar palabras dentro del grafo que tengan las letras qeu estan en la palabra de parametro
+    // si existen se agregan a un vector de palabras posibles
+
+    //hacer la funcion 2 veces una par acuando es comodin y otra para cuando no hay y cambiar la funcion de palabrasPosiblesVerificacion para que acepte el -1 en las letrea
     return;
 }
 void comandoGrafoDePalabras(std::string valor, std::vector<Grafo> &grafos, Diccionario diccionario)
@@ -417,7 +492,7 @@ void comandoGrafoDePalabras(std::string valor, std::vector<Grafo> &grafos, Dicci
     int comparacionValidacion = 0;
     std::vector<std::string> listaPalabras = diccionario.obtenerPalabras();
     std::vector<std::string> auxPalabras;
-    std::vector<std::vector<GestorPalabras>> arregloTamanoPalabras = llenadoArregloComparacionPalabras(listaPalabras);
+    std::vector<std::vector<std::string>> arregloTamanoPalabras = llenadoArregloComparacionPalabras(listaPalabras);
     /*
     for (int i = 0; i < listaPalabras.size(); i++)
     {
@@ -433,18 +508,17 @@ void comandoGrafoDePalabras(std::string valor, std::vector<Grafo> &grafos, Dicci
         }
     }
     */
+
     for (int x = 0; x < arregloTamanoPalabras.size(); x++)
     {
         Grafo grafo;
+        std::cout << "creando el grafo " << x << " de " << arregloTamanoPalabras.size() << std::endl;
         /* code */
 
         //std::cout << "insertando los datos" << std::endl;
         std::vector<std::string> palabrasGrafo;
 
-        for (int v = 0; v < arregloTamanoPalabras[x].size(); v++)
-        {
-            palabrasGrafo.push_back(arregloTamanoPalabras[x][v].palabras);
-        }
+        palabrasGrafo = arregloTamanoPalabras[x];
 
         auxPalabras = palabrasGrafo;
 
@@ -452,6 +526,8 @@ void comandoGrafoDePalabras(std::string valor, std::vector<Grafo> &grafos, Dicci
         grafo.fijarTamanoGrafo(palabrasGrafo[0].length());
 
         //std::cout << "termino la insertcion de los datos " << std::endl;
+        std::cout << "inicio comparacion de palabras del grafo " << std::endl;
+        std::cout << " se tienen " << palabrasGrafo.size() << " palabras " << std::endl;
 
         for (int i = 0; i < palabrasGrafo.size(); i++)
         {
@@ -464,23 +540,25 @@ void comandoGrafoDePalabras(std::string valor, std::vector<Grafo> &grafos, Dicci
                     grafo.insetarArista(palabrasGrafo[i], auxPalabras[j], comparacionValidacion);
                 }
             }
-
             auxPalabras.erase(auxPalabras.begin());
         }
+        std::cout << "termino comparacion de palabras del grafo " << std::endl;
         //std::cout << "termino la insertcion de las aristas del grafo: " << x << std::endl;
         //std::cout << "sus matrix y sus datos son" << std::endl;
         //grafo.imprimirVertices();
         //grafo.imprimirMatrix();
         grafos.push_back(grafo);
+
         //grafo.imprimirConexiones();
     }
+    /*
 
     for (int i = 0; i < grafos.size(); i++)
     {
         std::cout << "imprimiengo datos del grafo " << i << std::endl;
         grafos[i].imprimirConexiones();
     }
-    
+    */
     return;
 }
 
@@ -491,7 +569,7 @@ int main(int argc, char *argv[])
     std::vector<Diccionario> listaDiccionarios = maestro.obtenerDiccionarios();
     std::vector<std::string> arbolesNormales = maestro.obtenerArbolNormales();
     std::vector<std::string> arbolesInversos = maestro.obtenerArbolInversos();
-    std::vector<std::vector<GestorPalabras>> arregloComparacionPalabras;
+    std::vector<std::vector<std::string>> arregloComparacionPalabras;
     std::vector<Grafo> arregloGrafos = maestro.obtenerGrafo();
     Tree<char> arbolInv;
     Tree<char> arbol;
@@ -584,7 +662,7 @@ int main(int argc, char *argv[])
         else if (funcion.compare("posibles_palabras") == 0)
         {
             std::system("clear");
-            comandoPosiblesPalabras(valor);
+            comandoPosiblesPalabras(valor, arregloGrafos);
         }
         else
         {

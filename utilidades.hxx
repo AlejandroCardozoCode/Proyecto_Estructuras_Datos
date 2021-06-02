@@ -1,22 +1,5 @@
 #include "utilidades.h"
 
-
-struct GestorPalabras
-{
-    std::string palabras;
-    int tamano;
-
-    bool operator==(const GestorPalabras &other) const
-    {
-        if (palabras == other.palabras)
-            return true;
-        else
-        {
-            return  false;
-        }
-    }
-};
-
 void impresionAyuda()
 {
     std::cout << "comandos validos:" << std::endl
@@ -44,11 +27,11 @@ void impresionAyudaEspecifico(std::string valor)
     }
     else if (valor.compare("iniciar_inverso") == 0)
     {
-        std::cout <<"- iniciar_inverso: llame la funcion y seguidamente el archivo de texto" << std::endl;
+        std::cout << "- iniciar_inverso: llame la funcion y seguidamente el archivo de texto" << std::endl;
     }
     else if (valor.compare("puntaje") == 0)
     {
-        std::cout <<"- puntaje: llame la funcion y seguidamente una palabra" << std::endl;
+        std::cout << "- puntaje: llame la funcion y seguidamente una palabra" << std::endl;
     }
     else if (valor.compare("salir") == 0)
     {
@@ -82,37 +65,35 @@ void impresionAyudaEspecifico(std::string valor)
     {
         std::cout << "El comando ingresado no existe" << std::endl;
     }
-    return ;
+    return;
 }
 
-
-
-int compararPalabra(std::string palabra1, std::string palabra2) 
+int compararPalabra(std::string palabra1, std::string palabra2)
 {
     int contador = 0, posiscionLetraDif = 0, dif = 0;
-    if(palabra1.length() != palabra2.length())
+    if (palabra1.length() != palabra2.length())
     {
         return -1;
     }
 
     for (int i = 0; i < palabra1.length(); i++)
     {
-        if(palabra1[i] == palabra2[i])
+        if (palabra1[i] == palabra2[i])
         {
-            contador ++;
+            contador++;
         }
         else
         {
             posiscionLetraDif = i;
             dif++;
-            if(dif > 1 )
+            if (dif > 1)
             {
                 return -1;
             }
         }
     }
 
-    if(contador == palabra1.length() - 1)
+    if (contador == palabra1.length() - 1)
     {
         return posiscionLetraDif;
     }
@@ -120,5 +101,47 @@ int compararPalabra(std::string palabra1, std::string palabra2)
     {
         return -1;
     }
-    
+}
+
+int palabrasPosiblesVerificacion(std::string cadena, std::string palabra, bool existeComodin)
+{
+    int contador = 0;
+    std::string aux = cadena;
+    std::string::size_type pos;
+    for (int i = 0; i < palabra.length(); i++)
+    {
+        pos = aux.find(palabra[i]);
+        if (pos != std::string::npos)
+        {
+            aux.erase(aux.begin() + pos);
+            contador++;
+        }
+    }
+
+    if (existeComodin)
+    {
+        if (contador == palabra.length())
+        {
+            return 1;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+    else
+    {
+        if (contador == palabra.length())
+        {
+            return 1;
+        }
+        if (contador == palabra.length() -1)
+        {
+            return 1;
+        }
+        else
+        {
+            return -1;
+        }
+    }
 }

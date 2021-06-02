@@ -6,6 +6,7 @@
 void impresionAyuda();
 void impresionAyudaEspecifico(std::string);
 int compararPalabra(std::string palabra1, std::string palabra2);
+int palabrasPosiblesVerificacion(std::string cadena, std::string palabra, bool existeComodin);
 
 #include "utilidades.hxx"
 

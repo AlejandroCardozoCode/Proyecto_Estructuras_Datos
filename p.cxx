@@ -35,9 +35,8 @@ int compararPalabra(std::string palabra1, std::string palabra2)
 
 int main ()
 {
-    int matriz[0][0];
-
-    matriz = new int [10][10];
+    std::string s = "hola";
+    std::cout << int(s) << std::endl;
     
     return 0;
 }

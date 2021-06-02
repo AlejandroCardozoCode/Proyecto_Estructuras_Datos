@@ -1,22 +1,3 @@
-g++ -std=c++11 -g -o main *.cpp *.cxx
-inicializar englishWords-0.txt
-inicializar englishWords-1.txt
-inicializar englishWords-2.txt
-inicializar prueba.txt
-iniciar_inverso englishWords-0.txt
-iniciar_inverso prueba.txt
-puntaje aback
-puntaje kcaba
-
-iniciar_arbol englishWords-3.txt
-iniciar_arbol_inverso englishWords-3.txt
-iniciar_arbol englishWords-1.txt
-iniciar_arbol_inverso englishWords-1.txt
-
-palabras_por_prefijo hol
-palabras_por_prefijo kkl
-
-palabras_por_sufijo al
 
 //pruebas 3
 
@@ -29,3 +10,20 @@ grafo_de_palabras 1
 
 inicializar englishWords-1.txt
 grafo_de_palabras 1
+
+
+inicializar englishWords-3.txt
+grafo_de_palabras 1
+posibles_palabras pena
+
+inicializar englishWords-1.txt
+grafo_de_palabras 1
+posibles_palabras younger
+
+inicializar englishWords-1.txt
+grafo_de_palabras 1
+posibles_palabras younger?
+
+inicializar englishWords-3.txt
+grafo_de_palabras 1
+posibles_palabras casa?

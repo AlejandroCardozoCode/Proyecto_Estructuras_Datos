@@ -93,10 +93,8 @@ void Grafo::imprimirConexiones()
 {
     for (int i = 0; i < lista.size(); i++)
     {
-    std::cout << " la lista tiene un tamano de : " << lista.size() << " y en la posicion "<< i << " tiene " << lista[i].size() << " conexiones " << std::endl;
-        for (int j = 0; i < lista[i].size(); j++)
+        for (int j = 0; j < lista[i].size(); j++)
         {
-            std::cout << "ALJFLSJFLASJFL" << std::endl;
             std::string inicio, fin;
             std::cout << "El vertice " << obtenerVerticeDatoPorPosicion(i) << " tiene conexion con el vertice "  <<  obtenerVerticeDatoPorPosicion(lista[i][j].posicion) << std::endl;
         }
@@ -117,6 +115,11 @@ int Grafo::obtenerTamanoGrafo()
     return tamanoPalabrasGrafo;
 }
 
+
+std::vector<std::string> Grafo::obtenerArregloVertices() 
+{
+    return arregloVertices;
+}
 
 
 
