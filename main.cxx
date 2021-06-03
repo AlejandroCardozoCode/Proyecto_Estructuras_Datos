@@ -454,7 +454,10 @@ void comandoPosiblesPalabras(std::string cadena, std::vector<Grafo> &grafos)
                         std::vector<std::string> vecinos = grafos[i].obtenerVecinosVertice(palabrasGrafo[j]);
                         for (int k = 0; k < vecinos.size(); k++)
                         {
-                            posiblesPalabras.push_back(vecinos[k]);
+                            if (palabrasPosiblesVerificacion(cadena, vecinos[k], hayComodin) == 1)
+                            {
+                                posiblesPalabras.push_back(vecinos[k]);
+                            }
                         }
                     }
                 }

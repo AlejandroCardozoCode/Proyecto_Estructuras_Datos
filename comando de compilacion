@@ -30,7 +30,7 @@ grafo_de_palabras
 posibles_palabras younger
 
 inicializar englishWords-1.txt
-grafo_de_palabras 
+grafo_de_palabras
 posibles_palabras younger?
 
 inicializar englishWords-3.txt
