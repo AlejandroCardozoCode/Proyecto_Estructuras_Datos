@@ -1,4 +1,11 @@
 
+// pruebas 2
+
+iniciar_arbol englishWords-3.txt
+iniciar_arbol_inverso englishWords-3.txt
+palabras_por_sufijo zar
+
+
 //pruebas 3
 
 
@@ -26,4 +33,6 @@ posibles_palabras younger?
 
 inicializar englishWords-3.txt
 grafo_de_palabras 1
-posibles_palabras casa?
+posibles_palabras casa?-
+
+posibles_palabras zymoscope

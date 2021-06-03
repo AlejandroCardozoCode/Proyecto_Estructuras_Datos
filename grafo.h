@@ -36,6 +36,7 @@ public:
     void imprimirConexiones();
     void fijarTamanoGrafo(int valor);
     int obtenerTamanoGrafo();
+    std::vector<std::string> obtenerVecinosVertice(std::string palabra);
     std::vector<std::string> obtenerArregloVertices();
 
 };

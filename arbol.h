@@ -19,7 +19,7 @@ class Tree {
     void prefijo(std::string &prefijo, std::string nombreArchivo);
     void sufijo(std::string &sufijo, std::string nombreArchivo);
     Nodo<T>* nodoRaiz();
-    void imprimirHijos(Nodo<T> *nodo, std::string palabraS, std::string nombreArchivo, int modo);
+    void imprimirHijos(Nodo<T> *nodo, std::string palabraS, std::string nombreArchivo, int modo, bool valor);
     int calcularPuntos (char letra);
     
 };

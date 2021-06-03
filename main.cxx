@@ -68,6 +68,7 @@ void comandoInicializar(std::string valor, std::vector<Diccionario> &listaDiccio
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente el arichivo de texto " << std::endl;
+        return;
     }
 
     std::string linea, nombreArchivo = valor;
@@ -128,6 +129,7 @@ void comandoInicializarInverso(std::string valor, std::vector<Diccionario> &list
 
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente el arichivo de texto " << std::endl;
+        return;
     }
 
     std::string linea, nombreArchivo = valor;
@@ -248,6 +250,7 @@ void comandoPuntaje(std::string valor, std::vector<Diccionario> &listaDiccionari
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente una palabra " << std::endl;
+        return;
     }
     if (!verificarPalabra(valor))
     {
@@ -285,6 +288,7 @@ void comandoIniciarArbol(std::string valor, Tree<char> &arbol, std::vector<std::
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente un archivo de texto " << std::endl;
+        return;
     }
     std::vector<std::string>::iterator it;
     it = find(arbolesNormales.begin(), arbolesNormales.end(), valor);
@@ -328,6 +332,7 @@ void comandoIniciarArbolInverso(std::string valor, Tree<char> &arbolInv, std::ve
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente un archivo de texto " << std::endl;
+        return;
     }
 
     std::vector<std::string>::iterator it;
@@ -377,6 +382,7 @@ void comandoPalabrasPorPrefijo(std::string valor, Tree<char> &arbol)
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente prefijo " << std::endl;
+        return;
     }
 
     std::string prefijo = valor;
@@ -384,150 +390,108 @@ void comandoPalabrasPorPrefijo(std::string valor, Tree<char> &arbol)
 
     return;
 }
+
 void comandoPalabrasPorSufijo(std::string valor, Tree<char> &arbolInv)
 {
     if (valor.compare(" ") == 0 || valor.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente sufijo " << std::endl;
+        return;
     }
-
+    reverse(valor.begin(), valor.end());
     std::string sufijo = valor;
     arbolInv.sufijo(sufijo, archivoArbolInv);
-
     return;
 }
 
 void comandoPosiblesPalabras(std::string cadena, std::vector<Grafo> &grafos)
 {
+    std::string::size_type pos;
+    pos = cadena.find('?');
+    bool hayComodin = false;
+    int puntaje = 0;
+    std::string auxCadena = cadena;
+
+    if (pos != std::string::npos)
+    {
+        hayComodin = true;
+        int contadorComosin = contarComodines(cadena);
+        if (contadorComosin > 1)
+        {
+            std::cout << "Error la cadena tiene un numero de comodines invalido" << std::endl;
+            return;
+        }
+        int index = std::distance(auxCadena.begin(), find(auxCadena.begin(), auxCadena.end(), '?'));
+        auxCadena.erase(auxCadena.begin() + index);
+    }
+
+    if (!verificarPalabra(auxCadena))
+    {
+        std::cout << "Error la cadena contiene caracteres invalidos" << std::endl;
+        return;
+    }
+
     if (cadena.compare(" ") == 0 || cadena.compare("") == 0)
     {
         std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente una cadena de caracteres " << std::endl;
+        return;
     }
+
     std::vector<std::string> posiblesPalabras;
 
-    std::string::size_type pos;
-    pos = cadena.find('?');
-    int puntaje = 0;
-    // buscar en grafos qeu tengan el maximo tamaño de letras de la palabra o menos
-    if (pos != std::string::npos)
+    for (int i = 0; i < grafos.size(); i++)
     {
-        for (int i = 0; i < grafos.size(); i++)
+        if (grafos[i].obtenerTamanoGrafo() <= cadena.length())
         {
-            if (grafos[i].obtenerTamanoGrafo() <= cadena.length())
+            std::vector<std::string> palabrasGrafo = grafos[i].obtenerArregloVertices();
+            for (int j = 0; j < palabrasGrafo.size(); j++)
             {
-                // buscar palabras dentro del grafo que tengan las letras qeu estan en la palabra de parametro
-                // si existen se agregan a un vector de palabras posibles
-                std::vector<std::string> palabrasGrafo = grafos[i].obtenerArregloVertices();
-                for (int j = 0; j < palabrasGrafo.size(); j++)
+                if (palabrasPosiblesVerificacion(cadena, palabrasGrafo[j], hayComodin) == 1)
                 {
-                    if (palabrasPosiblesVerificacion(cadena, palabrasGrafo[j], false) == 1)
+                    posiblesPalabras.push_back(palabrasGrafo[j]);
+                    if (hayComodin)
                     {
-                        posiblesPalabras.push_back(palabrasGrafo[j]);
+                        std::vector<std::string> vecinos = grafos[i].obtenerVecinosVertice(palabrasGrafo[j]);
+                        for (int k = 0; k < vecinos.size(); k++)
+                        {
+                            posiblesPalabras.push_back(vecinos[k]);
+                        }
                     }
                 }
             }
         }
-        std::cout << "las posibles palabras son: " << std::endl;
-        for (int i = 0; i < posiblesPalabras.size(); i++)
-            {
-                for (int j = 0; j < posiblesPalabras[i].size(); j++)
-                {
-                    puntaje += puntos(posiblesPalabras[i][j]);
-                }
-                std::cout << posiblesPalabras[i] <<" |tamano: "<< posiblesPalabras[i].length() << " |puntaje " << puntaje << std::endl;
-                puntaje = 0;
-            }
-            
     }
-    else
+    sort(posiblesPalabras.begin(), posiblesPalabras.end());
+    posiblesPalabras.erase(unique(posiblesPalabras.begin(), posiblesPalabras.end()), posiblesPalabras.end());
+    std::cout << "las posibles palabras son: " << std::endl;
+    for (int i = 0; i < posiblesPalabras.size(); i++)
     {
-        for (int i = 0; i < grafos.size(); i++)
+        for (int j = 0; j < posiblesPalabras[i].size(); j++)
         {
-            if (grafos[i].obtenerTamanoGrafo() <= cadena.length())
-            {
-                // buscar palabras dentro del grafo que tengan las letras qeu estan en la palabra de parametro
-                // si existen se agregan a un vector de palabras posibles
-                std::vector<std::string> palabrasGrafo = grafos[i].obtenerArregloVertices();
-                for (int j = 0; j < palabrasGrafo.size(); j++)
-                {
-                    if (palabrasPosiblesVerificacion(cadena, palabrasGrafo[j], true) == 1)
-                    {
-                        posiblesPalabras.push_back(palabrasGrafo[j]);
-                    }
-                }
-            }
+            puntaje += puntos(posiblesPalabras[i][j]);
         }
-        std::cout << "las posibles palabras son: " << std::endl;
-        if (posiblesPalabras.empty())
-        {
-            std::cout << "No existen palabras que se puedan formar con esa cadena" << std::endl;
-        }
-        else
-        {
-            
-            for (int i = 0; i < posiblesPalabras.size(); i++)
-            {
-                for (int j = 0; j < posiblesPalabras[i].size(); j++)
-                {
-                    puntaje += puntos(posiblesPalabras[i][j]);
-                }
-                std::cout << posiblesPalabras[i] <<" |tamano: "<< posiblesPalabras[i].length() << " |puntaje " << puntaje << std::endl;
-                puntaje = 0;
-            }
-        }
+        std::cout << posiblesPalabras[i] << " |tamano: " << posiblesPalabras[i].length() << " |puntaje " << puntaje << std::endl;
+        puntaje = 0;
     }
-
-    // buscar palabras dentro del grafo que tengan las letras qeu estan en la palabra de parametro
-    // si existen se agregan a un vector de palabras posibles
-
-    //hacer la funcion 2 veces una par acuando es comodin y otra para cuando no hay y cambiar la funcion de palabrasPosiblesVerificacion para que acepte el -1 en las letrea
     return;
 }
-void comandoGrafoDePalabras(std::string valor, std::vector<Grafo> &grafos, Diccionario diccionario)
+void comandoGrafoDePalabras(std::vector<Grafo> &grafos, Diccionario diccionario)
 {
-    if (valor.compare(" ") == 0 || valor.compare("") == 0)
-    {
-        std::cout << "Error numero de parametros insuficiente, por favor llame la funcion y seguidamente una cadena de letras " << std::endl;
-    }
+
     int comparacionValidacion = 0;
     std::vector<std::string> listaPalabras = diccionario.obtenerPalabras();
     std::vector<std::string> auxPalabras;
     std::vector<std::vector<std::string>> arregloTamanoPalabras = llenadoArregloComparacionPalabras(listaPalabras);
-    /*
-    for (int i = 0; i < listaPalabras.size(); i++)
-    {
-        std::cout << listaPalabras[i] << std::endl;
-    }
-    std::cout << "-------------------------" << std::endl;
-    for (int i = 0; i < arregloTamanoPalabras.size(); i++)
-    {
-        std::cout << "imprimiendo palabras de tamano" << arregloTamanoPalabras[i][0].tamano << std::endl;
-        for (int j = 0; j < arregloTamanoPalabras[i].size(); j++)
-        {
-            std::cout << arregloTamanoPalabras[i][j].palabras << std::endl;
-        }
-    }
-    */
-
     for (int x = 0; x < arregloTamanoPalabras.size(); x++)
     {
         Grafo grafo;
-        std::cout << "creando el grafo " << x << " de " << arregloTamanoPalabras.size() << std::endl;
-        /* code */
-
-        //std::cout << "insertando los datos" << std::endl;
         std::vector<std::string> palabrasGrafo;
 
         palabrasGrafo = arregloTamanoPalabras[x];
-
         auxPalabras = palabrasGrafo;
 
         grafo.insertarVertice(palabrasGrafo);
         grafo.fijarTamanoGrafo(palabrasGrafo[0].length());
-
-        //std::cout << "termino la insertcion de los datos " << std::endl;
-        std::cout << "inicio comparacion de palabras del grafo " << std::endl;
-        std::cout << " se tienen " << palabrasGrafo.size() << " palabras " << std::endl;
 
         for (int i = 0; i < palabrasGrafo.size(); i++)
         {
@@ -536,29 +500,12 @@ void comandoGrafoDePalabras(std::string valor, std::vector<Grafo> &grafos, Dicci
                 comparacionValidacion = compararPalabra(palabrasGrafo[i], auxPalabras[j]);
                 if (comparacionValidacion != -1)
                 {
-                    //std::cout << " hay conexion entre " << listaPalabras[i] << " y " << arregloTamanoPalabras[j][k].palabras << std::endl;
                     grafo.insetarArista(palabrasGrafo[i], auxPalabras[j], comparacionValidacion);
                 }
             }
-            auxPalabras.erase(auxPalabras.begin());
         }
-        std::cout << "termino comparacion de palabras del grafo " << std::endl;
-        //std::cout << "termino la insertcion de las aristas del grafo: " << x << std::endl;
-        //std::cout << "sus matrix y sus datos son" << std::endl;
-        //grafo.imprimirVertices();
-        //grafo.imprimirMatrix();
         grafos.push_back(grafo);
-
-        //grafo.imprimirConexiones();
     }
-    /*
-
-    for (int i = 0; i < grafos.size(); i++)
-    {
-        std::cout << "imprimiengo datos del grafo " << i << std::endl;
-        grafos[i].imprimirConexiones();
-    }
-    */
     return;
 }
 
@@ -657,7 +604,7 @@ int main(int argc, char *argv[])
         else if (funcion.compare("grafo_de_palabras") == 0)
         {
             std::system("clear");
-            comandoGrafoDePalabras(valor, arregloGrafos, listaDiccionarios[0]);
+            comandoGrafoDePalabras(arregloGrafos, listaDiccionarios.back());
         }
         else if (funcion.compare("posibles_palabras") == 0)
         {

@@ -96,6 +96,7 @@ void Grafo::imprimirConexiones()
         for (int j = 0; j < lista[i].size(); j++)
         {
             std::string inicio, fin;
+            //std::cout << "tiene: " << lista[i].size() << "conexiones" << std::endl;  
             std::cout << "El vertice " << obtenerVerticeDatoPorPosicion(i) << " tiene conexion con el vertice "  <<  obtenerVerticeDatoPorPosicion(lista[i][j].posicion) << std::endl;
         }
         
@@ -119,6 +120,18 @@ int Grafo::obtenerTamanoGrafo()
 std::vector<std::string> Grafo::obtenerArregloVertices() 
 {
     return arregloVertices;
+}
+
+
+std::vector<std::string> Grafo::obtenerVecinosVertice(std::string palabra) 
+{
+    int posicionVertice = obtenerPosicionVertice(palabra);
+    std::vector<std::string> vecinos;
+    for(int i = 0; i < lista[posicionVertice].size(); i++)
+    {
+        vecinos.push_back(arregloVertices[lista[posicionVertice][i].posicion]);
+    }
+    return vecinos;
 }
 
 

@@ -139,7 +139,7 @@ Nodo<T> *Tree<T>::encontrarNodo(std::string &copiaPrefijo, Nodo<T> *nodo)
 }
 
 template <class T>
-void Tree<T>::imprimirHijos(Nodo<T> *nodo, std::string palabraS, std::string nombreArchivo, int modo)
+void Tree<T>::imprimirHijos(Nodo<T> *nodo, std::string palabraS, std::string nombreArchivo, int modo, bool esSufijo)
 {
   std::vector<Nodo<T>> *hijosActual = nodo->obtenerHijos();
   std::vector<Nodo<T>> hijosValor = *hijosActual;
@@ -163,6 +163,7 @@ void Tree<T>::imprimirHijos(Nodo<T> *nodo, std::string palabraS, std::string nom
         {
             puntaje += calcularPuntos(palabraS[i]);
         }
+        reverse(palabraS.begin(), palabraS.end());
         std::cout << palabraS << " tam: " << palabraS.size() << " puntaje: " << puntaje << std::endl;
       }
     }
@@ -172,7 +173,7 @@ void Tree<T>::imprimirHijos(Nodo<T> *nodo, std::string palabraS, std::string nom
   for (int i = 0; i < hijosValor.size(); i++)
   {
     Nodo<T> *nuevoNodo = &hijosValor[i];
-    imprimirHijos(nuevoNodo, palabraS, nombreArchivo, modo);
+    imprimirHijos(nuevoNodo, palabraS, nombreArchivo, modo, esSufijo);
   }
   return;
 }
@@ -195,7 +196,7 @@ void Tree<T>::prefijo(std::string &prefijo, std::string nombreArchivo)
   {
     Nodo<T> nodoFinalValor = *nodoFinal;
     std::cout << "Las palabras que inician con este prefijo son:  " << std::endl;
-    imprimirHijos(nodoFinal, palabraS, nombreArchivo, 0);
+    imprimirHijos(nodoFinal, palabraS, nombreArchivo, 0, false);
   }
   return;
 }
@@ -218,7 +219,7 @@ void Tree<T>::sufijo(std::string &sufijo, std::string nombreArchivo)
   {
     Nodo<T> nodoFinalValor = *nodoFinal;
     std::cout << "Las palabras que inician con este sufijo son:  " << std::endl;
-    imprimirHijos(nodoFinal, palabraS, nombreArchivo, 1);
+    imprimirHijos(nodoFinal, palabraS, nombreArchivo, 1, true);
   }
   return;
 }

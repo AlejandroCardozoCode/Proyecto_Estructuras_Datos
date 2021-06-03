@@ -11,8 +11,8 @@ void impresionAyuda()
               << "- iniciar_arbol_inverso  / inicia un arbol de manera inversa a partir de un archivo" << std::endl
               << "- palabras_por_prefijo   / busca una palabra por un prefijo en el arbol normal" << std::endl
               << "- palabras_por_sufijo    / busca una palabra por un sufijo en el arbol inverso" << std::endl
-              << "- grafo_de_palabras" << std::endl
-              << "- posibles_palabras" << std::endl
+              << "- grafo_de_palabras      / Inicia un grafo con el ultimo diccionario en el sistema" << std::endl
+              << "- posibles_palabras      / Dada una cadena de caracteres encuentra las posibles palabras, use (?) en la cadena para usar el comodin" << std::endl
               << "-------------------------------------------------------------------" << std::endl
               << "Para tener informacion sobre un comando utilice $: ayuda <comando> " << std::endl
               << "-------------------------------------------------------------------" << std::endl;
@@ -59,7 +59,7 @@ void impresionAyudaEspecifico(std::string valor)
     }
     else if (valor.compare("posibles_palabras") == 0)
     {
-        std::cout << "- posibles_palabras: llame la funcion y seguidamente una cadena de letras" << std::endl;
+        std::cout << "- posibles_palabras: llame la funcion y seguidamente una cadena de letras, use (?) para usar comodin" << std::endl;
     }
     else
     {
@@ -71,10 +71,6 @@ void impresionAyudaEspecifico(std::string valor)
 int compararPalabra(std::string palabra1, std::string palabra2)
 {
     int contador = 0, posiscionLetraDif = 0, dif = 0;
-    if (palabra1.length() != palabra2.length())
-    {
-        return -1;
-    }
 
     for (int i = 0; i < palabra1.length(); i++)
     {
@@ -103,7 +99,7 @@ int compararPalabra(std::string palabra1, std::string palabra2)
     }
 }
 
-int palabrasPosiblesVerificacion(std::string cadena, std::string palabra, bool existeComodin)
+int palabrasPosiblesVerificacion(std::string cadena, std::string palabra, bool hayComodin)
 {
     int contador = 0;
     std::string aux = cadena;
@@ -117,31 +113,33 @@ int palabrasPosiblesVerificacion(std::string cadena, std::string palabra, bool e
             contador++;
         }
     }
-
-    if (existeComodin)
+    if (contador == palabra.length() - 1 && hayComodin)
     {
-        if (contador == palabra.length())
-        {
-            return 1;
-        }
-        else
-        {
-            return -1;
-        }
+        return 1;
+    }
+    if (contador == palabra.length())
+    {
+        return 1;
     }
     else
     {
-        if (contador == palabra.length())
+        return -1;
+    }
+}
+
+int contarComodines(std::string cadena)
+{
+    int contador = 0;
+    std::string aux = cadena;
+    std::string::size_type pos;
+    for (int i = 0; i < cadena.length(); i++)
+    {
+        pos = aux.find('?');
+        if (pos != std::string::npos)
         {
-            return 1;
-        }
-        if (contador == palabra.length() -1)
-        {
-            return 1;
-        }
-        else
-        {
-            return -1;
+            aux.erase(aux.begin() + pos);
+            contador++;
         }
     }
+    return contador;
 }
