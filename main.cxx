@@ -466,6 +466,12 @@ void comandoPosiblesPalabras(std::string cadena, std::vector<Grafo> &grafos)
     }
     sort(posiblesPalabras.begin(), posiblesPalabras.end());
     posiblesPalabras.erase(unique(posiblesPalabras.begin(), posiblesPalabras.end()), posiblesPalabras.end());
+    if(posiblesPalabras.empty())
+    {
+        std::cout << "No hay posibles palabras para formar con esa cadena de caracteres"<<std::endl;
+    }
+    else
+    {
     std::cout << "las posibles palabras son: " << std::endl;
     for (int i = 0; i < posiblesPalabras.size(); i++)
     {
@@ -476,6 +482,7 @@ void comandoPosiblesPalabras(std::string cadena, std::vector<Grafo> &grafos)
         std::cout << posiblesPalabras[i] << " |tamano: " << posiblesPalabras[i].length() << " |puntaje " << puntaje << std::endl;
         puntaje = 0;
     }
+    }
     return;
 }
 void comandoGrafoDePalabras(std::vector<Grafo> &grafos, Diccionario diccionario)
@@ -485,6 +492,7 @@ void comandoGrafoDePalabras(std::vector<Grafo> &grafos, Diccionario diccionario)
     std::vector<std::string> listaPalabras = diccionario.obtenerPalabras();
     std::vector<std::string> auxPalabras;
     std::vector<std::vector<std::string>> arregloTamanoPalabras = llenadoArregloComparacionPalabras(listaPalabras);
+    std::cout << "Creando el grafo, por favor espere..."<<std::endl;
     for (int x = 0; x < arregloTamanoPalabras.size(); x++)
     {
         Grafo grafo;
