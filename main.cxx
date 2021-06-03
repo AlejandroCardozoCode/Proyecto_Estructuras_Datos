@@ -604,7 +604,14 @@ int main(int argc, char *argv[])
         else if (funcion.compare("grafo_de_palabras") == 0)
         {
             std::system("clear");
-            comandoGrafoDePalabras(arregloGrafos, listaDiccionarios.back());
+            if (!listaDiccionarios.empty())
+            {
+                comandoGrafoDePalabras(arregloGrafos, listaDiccionarios.back());
+            }
+            else
+            {
+                std::cout << "Error: un diccionario debe ser inicializado" << std::endl;
+            }
         }
         else if (funcion.compare("posibles_palabras") == 0)
         {
